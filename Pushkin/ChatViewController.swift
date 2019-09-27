@@ -29,6 +29,13 @@ struct Message: MessageType {
     let messageId: String
     let sentDate: Date
     let kind: MessageKind
+
+    init(sender: SenderType, kind: MessageKind) {
+        self.sender = sender
+        self.messageId = UUID().uuidString
+        self.sentDate = Date()
+        self.kind = kind
+    }
 }
 
 struct LocationMessage: LocationItem {
@@ -40,18 +47,7 @@ final class ChatViewController: MessagesViewController {
     private let user = Sender(displayName: "Вы")
     private let bot = Sender(displayName: "Помощник")
 
-    private lazy var messages = [
-        Message(sender: self.user, messageId: "1", sentDate: Date().addingTimeInterval(-143), kind: .text("Привет")),
-        Message(sender: self.bot, messageId: "2", sentDate: Date().addingTimeInterval(-54), kind: .text("Как дела?")),
-        Message(sender: self.user, messageId: "3", sentDate: Date().addingTimeInterval(-32), kind: .text("Норм")),
-        Message(sender: self.bot, messageId: "4", sentDate: Date().addingTimeInterval(-14), kind: .text("А у тебя?")),
-        Message(sender: self.user, messageId: "5", sentDate: Date().addingTimeInterval(-11), kind: .text("Тоже")),
-        Message(sender: self.user, messageId: "6", sentDate: Date().addingTimeInterval(-10), kind: .text("Ты где?")),
-        Message(sender: self.bot, messageId: "7", sentDate: Date().addingTimeInterval(-8), kind: .text("Санкт-Петербург, Исакиевская площадь, д. 1")),
-        Message(sender: self.bot, messageId: "8", sentDate: Date().addingTimeInterval(-7), kind: .location(LocationMessage(location: CLLocation(latitude: 59.9338, longitude: 30.3030)))),
-        Message(sender: self.user, messageId: "9", sentDate: Date().addingTimeInterval(-5), kind: .text("Сейчас подъеду")),
-        Message(sender: self.bot, messageId: "10", sentDate: Date().addingTimeInterval(-1), kind: .text("На всякий случай вот мой номер: 88005553535"))
-    ]
+    private var messages = [Message]()
 
     private lazy var menuStackView: UIStackView = {
         let cameraButton = UIButton()
@@ -104,11 +100,13 @@ final class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.fillMessages()
+
         self.messagesCollectionView.messagesDataSource = self
         self.messagesCollectionView.messagesLayoutDelegate = self
         self.messagesCollectionView.messagesDisplayDelegate = self
 
-        self.configureMessageInputBarForMenu()
+        self.configureMessageInputBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -121,6 +119,26 @@ final class ChatViewController: MessagesViewController {
         super.viewWillDisappear(animated)
 
         self.unregisterFromKeyboardNotifications()
+    }
+
+    private func fillMessages() {
+        self.messages = [
+            Message(sender: self.user, kind: .text("Привет")),
+            Message(sender: self.bot, kind: .text("Как дела?")),
+            Message(sender: self.user, kind: .text("Норм")),
+            Message(sender: self.bot, kind: .text("А у тебя?")),
+            Message(sender: self.user, kind: .text("Тоже")),
+            Message(sender: self.user, kind: .text("Ты где?")),
+            Message(sender: self.bot, kind: .text("Санкт-Петербург, Исакиевская площадь, д. 1")),
+            Message(sender: self.bot, kind: .location(LocationMessage(location: CLLocation(latitude: 59.9338, longitude: 30.3030)))),
+            Message(sender: self.user, kind: .text("Сейчас подъеду")),
+            Message(sender: self.bot, kind: .text("На всякий случай вот мой номер: 88005553535"))
+        ]
+    }
+
+    private func configureMessageInputBar() {
+        self.configureMessageInputBarForMenu()
+        self.messageInputBar.delegate = self
     }
 
     private func configureMessageInputBarForMenu() {
@@ -151,6 +169,27 @@ final class ChatViewController: MessagesViewController {
     private func configureMessageInputBarForPhoto() {
 
     }
+
+    private func insertMessage(_ message: Message) {
+        self.messages.append(message)
+        // Reload last section to update header/footer labels and insert a new one
+        self.messagesCollectionView.performBatchUpdates({
+            messagesCollectionView.insertSections([self.messages.count - 1])
+            if self.messages.count >= 2 {
+                self.messagesCollectionView.reloadSections([self.messages.count - 2])
+            }
+        }, completion: { [weak self] _ in
+            if self?.isLastSectionVisible() == true {
+                self?.messagesCollectionView.scrollToBottom(animated: true)
+            }
+        })
+    }
+
+    private func isLastSectionVisible() -> Bool {
+        guard !self.messages.isEmpty else { return false }
+        let lastIndexPath = IndexPath(item: 0, section: self.messages.count - 1)
+        return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
+    }
 }
 
 extension ChatViewController: MessagesDataSource {
@@ -176,6 +215,17 @@ extension ChatViewController: MessagesLayoutDelegate {
 extension ChatViewController: MessagesDisplayDelegate {
     func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
         return [.address, .date, .phoneNumber, .url]
+    }
+}
+
+extension ChatViewController: InputBarAccessoryViewDelegate {
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        messageInputBar.inputTextView.text = String()
+        messageInputBar.invalidatePlugins()
+
+        self.insertMessage(Message(sender: self.user, kind: .text(text)))
+
+        self.messagesCollectionView.scrollToBottom(animated: true)
     }
 }
 
