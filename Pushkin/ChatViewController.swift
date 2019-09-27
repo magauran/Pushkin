@@ -21,7 +21,6 @@ struct Sender: SenderType {
     init(displayName: String) {
         self.displayName = displayName
     }
-
 }
 
 struct Message: MessageType {
@@ -44,6 +43,7 @@ struct LocationMessage: LocationItem {
 }
 
 final class ChatViewController: MessagesViewController {
+    private let chatService: ChatService = MockChatService()
     private let user = Sender(displayName: "Вы")
     private let bot = Sender(displayName: "Помощник")
 
@@ -151,6 +151,7 @@ final class ChatViewController: MessagesViewController {
         self.messageInputBar.setRightStackViewWidthConstant(to: 52, animated: true)
         self.messageInputBar.setStackViewItems([], forStack: .bottom, animated: true)
         self.messageInputBar.inputTextView.becomeFirstResponder()
+        self.messagesCollectionView.scrollToBottom(animated: true)
     }
 
     private func configureMessageInputBarForSpeech() {
@@ -168,6 +169,34 @@ final class ChatViewController: MessagesViewController {
 
     private func configureMessageInputBarForPhoto() {
 
+    }
+
+    private func sendMessage(_ message: Message) {
+        self.insertMessage(message)
+        self.setTypingIndicatorViewHidden(false, animated: true)
+        self.chatService.send(message: "Text") { [weak self] result in
+            guard let self = self else { return assertionFailure() }
+            switch result {
+            case .success(let answer):
+                let answerMessage = Message(sender: self.bot, kind: .text(answer))
+                DispatchQueue.main.async {
+                    self.setTypingIndicatorViewHidden(
+                        true,
+                        animated: true,
+                        whilePerforming: {
+                            self.insertMessage(answerMessage)
+                        },
+                        completion: { [weak self] success in
+                            if success, self?.isLastSectionVisible() == true {
+                                self?.messagesCollectionView.scrollToBottom(animated: true)
+                            }
+                        }
+                    )
+                }
+            case .failure(let error):
+                print("error")
+            }
+        }
     }
 
     private func insertMessage(_ message: Message) {
@@ -204,8 +233,6 @@ extension ChatViewController: MessagesDataSource {
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return self.messages.count
     }
-
-
 }
 
 extension ChatViewController: MessagesLayoutDelegate {
@@ -223,8 +250,8 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         messageInputBar.inputTextView.text = String()
         messageInputBar.invalidatePlugins()
 
-        self.insertMessage(Message(sender: self.user, kind: .text(text)))
-
+        let message = Message(sender: self.user, kind: .text(text))
+        self.sendMessage(message)
         self.messagesCollectionView.scrollToBottom(animated: true)
     }
 }
