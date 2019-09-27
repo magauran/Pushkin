@@ -34,7 +34,7 @@ final class SpeechView: UIView {
 
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
-        self.timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { [weak self] _ in
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { [weak self] _ in
             guard let self = self else { return }
             if self.siriWave.amplitude <= self.siriWave.idleAmplitude || self.siriWave.amplitude > 1 {
                 self.change *= -1.0
@@ -43,6 +43,9 @@ final class SpeechView: UIView {
             self.siriWave.waveColor = UIColor(hue: (CGFloat(self.hue % 1000)) / 1000, saturation: 1, brightness: 1, alpha: 1)
             self.hue += 1
         })
+
+        self.timer = timer
+        RunLoop.main.add(timer, forMode: .common)
     }
 
     override func willRemoveSubview(_ subview: UIView) {
