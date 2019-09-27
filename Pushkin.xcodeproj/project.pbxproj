@@ -3,17 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		7862C38303EE6F84F5E4752B /* Pods_Pushkin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 533697D3460B108C73D55667 /* Pods_Pushkin.framework */; };
 		889FD3A6233E5FA800227A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3A5233E5FA800227A7C /* AppDelegate.swift */; };
-		889FD3A8233E5FA800227A7C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3A7233E5FA800227A7C /* SceneDelegate.swift */; };
 		889FD3AA233E5FA800227A7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3A9233E5FA800227A7C /* ViewController.swift */; };
 		889FD3AD233E5FA800227A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 889FD3AB233E5FA800227A7C /* Main.storyboard */; };
 		889FD3AF233E5FA900227A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889FD3AE233E5FA900227A7C /* Assets.xcassets */; };
 		889FD3B2233E5FA900227A7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 889FD3B0233E5FA900227A7C /* LaunchScreen.storyboard */; };
+		889FD3BA233E63E000227A7C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3B9233E63E000227A7C /* ChatViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,12 +21,12 @@
 		5E8A45599FBBC8D145CFC547 /* Pods-Pushkin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pushkin.release.xcconfig"; path = "Target Support Files/Pods-Pushkin/Pods-Pushkin.release.xcconfig"; sourceTree = "<group>"; };
 		889FD3A2233E5FA800227A7C /* Pushkin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pushkin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		889FD3A5233E5FA800227A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		889FD3A7233E5FA800227A7C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		889FD3A9233E5FA800227A7C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		889FD3AC233E5FA800227A7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		889FD3AE233E5FA900227A7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		889FD3B1233E5FA900227A7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		889FD3B3233E5FA900227A7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		889FD3B9233E63E000227A7C /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		D85F953060E5726D5C991CE9 /* Pods-Pushkin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pushkin.debug.xcconfig"; path = "Target Support Files/Pods-Pushkin/Pods-Pushkin.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -48,7 +48,6 @@
 				D85F953060E5726D5C991CE9 /* Pods-Pushkin.debug.xcconfig */,
 				5E8A45599FBBC8D145CFC547 /* Pods-Pushkin.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -74,8 +73,8 @@
 			isa = PBXGroup;
 			children = (
 				889FD3A5233E5FA800227A7C /* AppDelegate.swift */,
-				889FD3A7233E5FA800227A7C /* SceneDelegate.swift */,
 				889FD3A9233E5FA800227A7C /* ViewController.swift */,
+				889FD3B9233E63E000227A7C /* ChatViewController.swift */,
 				889FD3AB233E5FA800227A7C /* Main.storyboard */,
 				889FD3AE233E5FA900227A7C /* Assets.xcassets */,
 				889FD3B0233E5FA900227A7C /* LaunchScreen.storyboard */,
@@ -209,7 +208,7 @@
 			files = (
 				889FD3AA233E5FA800227A7C /* ViewController.swift in Sources */,
 				889FD3A6233E5FA800227A7C /* AppDelegate.swift in Sources */,
-				889FD3A8233E5FA800227A7C /* SceneDelegate.swift in Sources */,
+				889FD3BA233E63E000227A7C /* ChatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
