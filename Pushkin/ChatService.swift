@@ -9,10 +9,28 @@
 import Foundation
 import UIKit
 
-class ChatService: NSObject, URLSessionDelegate {
-    typealias Answer = String
-    typealias AnswerHandler = (Answer?) -> Void
-    static private let urlString = "https://"
+enum ChatError: Error {
+    case unknown
+}
+
+typealias Answer = String
+typealias AnswerHandler = (Result<Answer, ChatError>) -> Void
+
+protocol ChatService: AnyObject {
+    func send(message: String, then handler: @escaping AnswerHandler)
+}
+
+final class MockChatService: ChatService {
+    func send(message: String, then handler: @escaping AnswerHandler) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+            handler(.success("Hello!"))
+            return
+        }
+    }
+}
+
+final class ChatServiceImpl: NSObject, URLSessionDelegate, ChatService {
+    static private let urlString = "http://5a17efef.ngrok.io/"
 
     lazy private var session: URLSession = {
         let sessionConfiguration = URLSessionConfiguration.default
@@ -20,18 +38,17 @@ class ChatService: NSObject, URLSessionDelegate {
         return session
     }()
 
-    func send(question: String, completionHandler: @escaping AnswerHandler) {
-        guard let serviceUrl = URL(string: "\(ChatService.urlString)/message") else {
-            completionHandler(nil)
+    func send(message: String, then handler: @escaping AnswerHandler) {
+        guard let serviceUrl = URL(string: "\(ChatServiceImpl.urlString)/text") else {
+            handler(.failure(.unknown))
             return
         }
-        let parameterDictionary = ["request" : question,
-                                   "id" : UIDevice.current.identifierForVendor!.uuidString]
+        let parameterDictionary = ["text" : message]
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "POST"
         request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
-            completionHandler(nil)
+            handler(.failure(.unknown))
             return
         }
         request.httpBody = httpBody
@@ -40,8 +57,10 @@ class ChatService: NSObject, URLSessionDelegate {
             if let data = data,
                 let httpResponse = response as? HTTPURLResponse,
                 httpResponse.statusCode == 200 {
-                let answer = String(data: data, encoding: String.Encoding.utf8)
-                completionHandler(answer)
+                let answer = String(decoding: data, as: UTF8.self)
+                handler(.success(answer))
+            } else {
+                handler(.failure(.unknown))
             }
         }.resume()
     }
