@@ -21,19 +21,26 @@ protocol ChatService: AnyObject {
 }
 
 final class MockChatService: ChatService {
+    private let isFailure = false
+
     func send(message: String, then handler: @escaping AnswerHandler) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            handler(.success("Hello!"))
+            if self.isFailure {
+                handler(.failure(.unknown))
+            } else {
+                handler(.success("Hello!"))
+            }
             return
         }
     }
 }
 
 final class ChatServiceImpl: NSObject, URLSessionDelegate, ChatService {
-    static private let urlString = "http://5a17efef.ngrok.io/"
+    static private let urlString = "http://5a17efef.ngrok.io"
 
     lazy private var session: URLSession = {
         let sessionConfiguration = URLSessionConfiguration.default
+        sessionConfiguration.timeoutIntervalForRequest = 5
         let session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: nil)
         return session
     }()

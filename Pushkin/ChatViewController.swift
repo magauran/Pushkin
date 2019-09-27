@@ -43,7 +43,7 @@ struct LocationMessage: LocationItem {
 }
 
 final class ChatViewController: MessagesViewController {
-    private let chatService: ChatService = MockChatService()
+    private let chatService: ChatService = ChatServiceImpl()
     private let user = Sender(displayName: "Вы")
     private let bot = Sender(displayName: "Помощник")
 
@@ -176,25 +176,28 @@ final class ChatViewController: MessagesViewController {
         self.setTypingIndicatorViewHidden(false, animated: true)
         self.chatService.send(message: "Text") { [weak self] result in
             guard let self = self else { return assertionFailure() }
+            let answerMessage: Message
             switch result {
             case .success(let answer):
-                let answerMessage = Message(sender: self.bot, kind: .text(answer))
-                DispatchQueue.main.async {
-                    self.setTypingIndicatorViewHidden(
-                        true,
-                        animated: true,
-                        whilePerforming: {
-                            self.insertMessage(answerMessage)
-                        },
-                        completion: { [weak self] success in
-                            if success, self?.isLastSectionVisible() == true {
-                                self?.messagesCollectionView.scrollToBottom(animated: true)
-                            }
-                        }
-                    )
-                }
+                answerMessage = Message(sender: self.bot, kind: .text(answer))
             case .failure(let error):
-                print("error")
+                print(error)
+                answerMessage = Message(sender: self.bot, kind: .text("Извини, сервак упал :с"))
+            }
+
+            DispatchQueue.main.async {
+                self.setTypingIndicatorViewHidden(
+                    true,
+                    animated: true,
+                    whilePerforming: { [weak self] in
+                        self?.insertMessage(answerMessage)
+                    },
+                    completion: { [weak self] success in
+                        if success, self?.isLastSectionVisible() == true {
+                            self?.messagesCollectionView.scrollToBottom(animated: true)
+                        }
+                    }
+                )
             }
         }
     }
