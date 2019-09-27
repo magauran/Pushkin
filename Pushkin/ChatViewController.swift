@@ -124,17 +124,28 @@ final class ChatViewController: MessagesViewController {
     }
 
     private func configureMessageInputBarForMenu() {
-        self.messageInputBar.setMiddleContentView(self.menuStackView, animated: false)
-        self.messageInputBar.setRightStackViewWidthConstant(to: 0, animated: false)
+        self.messageInputBar.setMiddleContentView(self.menuStackView, animated: true)
+        self.messageInputBar.setRightStackViewWidthConstant(to: 0, animated: true)
     }
 
     private func configureMessageInputBarForKeyboard() {
         self.messageInputBar.setMiddleContentView(self.messageInputBar.inputTextView, animated: true)
         self.messageInputBar.setRightStackViewWidthConstant(to: 52, animated: true)
+        self.messageInputBar.setStackViewItems([], forStack: .bottom, animated: true)
+        self.messageInputBar.inputTextView.becomeFirstResponder()
     }
 
     private func configureMessageInputBarForSpeech() {
-       
+        let speechView = SpeechView()
+        speechView.snp.makeConstraints { make in
+            make.height.equalTo(150)
+        }
+        speechView.addTapGesture { [weak self] _ in
+            self?.configureMessageInputBarForMenu()
+        }
+
+        self.messageInputBar.setMiddleContentView(speechView, animated: true)
+        self.messageInputBar.setRightStackViewWidthConstant(to: 0, animated: true)
     }
 
     private func configureMessageInputBarForPhoto() {

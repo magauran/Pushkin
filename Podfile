@@ -11,5 +11,6 @@ target 'Pushkin' do
   pod 'Closures'
   pod 'Keyboardy'
   pod 'Repeat'
+  pod 'SwiftSiriWaveformView'
 
 end
