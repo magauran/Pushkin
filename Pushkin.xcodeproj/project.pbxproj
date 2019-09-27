@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7862C38303EE6F84F5E4752B /* Pods_Pushkin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 533697D3460B108C73D55667 /* Pods_Pushkin.framework */; };
 		889FD3A6233E5FA800227A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3A5233E5FA800227A7C /* AppDelegate.swift */; };
 		889FD3A8233E5FA800227A7C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3A7233E5FA800227A7C /* SceneDelegate.swift */; };
 		889FD3AA233E5FA800227A7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3A9233E5FA800227A7C /* ViewController.swift */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		533697D3460B108C73D55667 /* Pods_Pushkin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pushkin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E8A45599FBBC8D145CFC547 /* Pods-Pushkin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pushkin.release.xcconfig"; path = "Target Support Files/Pods-Pushkin/Pods-Pushkin.release.xcconfig"; sourceTree = "<group>"; };
 		889FD3A2233E5FA800227A7C /* Pushkin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pushkin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		889FD3A5233E5FA800227A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		889FD3A7233E5FA800227A7C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		889FD3AE233E5FA900227A7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		889FD3B1233E5FA900227A7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		889FD3B3233E5FA900227A7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D85F953060E5726D5C991CE9 /* Pods-Pushkin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pushkin.debug.xcconfig"; path = "Target Support Files/Pods-Pushkin/Pods-Pushkin.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7862C38303EE6F84F5E4752B /* Pods_Pushkin.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70E328165B04DF349A5C8D7C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D85F953060E5726D5C991CE9 /* Pods-Pushkin.debug.xcconfig */,
+				5E8A45599FBBC8D145CFC547 /* Pods-Pushkin.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		889FD399233E5FA800227A7C = {
 			isa = PBXGroup;
 			children = (
 				889FD3A4233E5FA800227A7C /* Pushkin */,
 				889FD3A3233E5FA800227A7C /* Products */,
+				70E328165B04DF349A5C8D7C /* Pods */,
+				93957260432FA2EA530F3858 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +84,14 @@
 			path = Pushkin;
 			sourceTree = "<group>";
 		};
+		93957260432FA2EA530F3858 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				533697D3460B108C73D55667 /* Pods_Pushkin.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 889FD3B6233E5FA900227A7C /* Build configuration list for PBXNativeTarget "Pushkin" */;
 			buildPhases = (
+				2D3AD4AAAAA168AEA547F7E7 /* [CP] Check Pods Manifest.lock */,
 				889FD39E233E5FA800227A7C /* Sources */,
 				889FD39F233E5FA800227A7C /* Frameworks */,
 				889FD3A0233E5FA800227A7C /* Resources */,
+				F39B24163E4B6FBCEBC241E0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2D3AD4AAAAA168AEA547F7E7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Pushkin-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F39B24163E4B6FBCEBC241E0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Pushkin/Pods-Pushkin-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Pushkin/Pods-Pushkin-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pushkin/Pods-Pushkin-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		889FD39E233E5FA800227A7C /* Sources */ = {
@@ -282,6 +351,7 @@
 		};
 		889FD3B7233E5FA900227A7C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D85F953060E5726D5C991CE9 /* Pods-Pushkin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -300,6 +370,7 @@
 		};
 		889FD3B8233E5FA900227A7C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E8A45599FBBC8D145CFC547 /* Pods-Pushkin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
