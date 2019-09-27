@@ -45,26 +45,16 @@
     <dict>
         <key>NSExceptionDomains</key>
         <dict>
-            <key>5a17efef.ngrok.io</key>
+            <key>95.213.38.6:1488</key>
             <dict>
                 <key>NSIncludesSubdomains</key>
                 <true/>
                 <key>NSExceptionAllowsInsecureHTTPLoads</key>
                 <true/>
                 <key>NSExceptionRequiresForwardSecrecy</key>
-                <true/>
+                <false/>
                 <key>NSExceptionMinimumTLSVersion</key>
-                <string>TLSv1.2</string>
-                <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-                <false/>
-                <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-                <true/>
-                <key>NSThirdPartyExceptionMinimumTLSVersion</key>
-                <string>TLSv1.2</string>
-                <key>NSRequiresCertificateTransparency</key>
-                <false/>
-                <key>NSTemporaryExceptionRequiresForwardSecrecy</key>
-                <false/>
+                <string>TLSv1.0</string>
             </dict>
         </dict>
     </dict>

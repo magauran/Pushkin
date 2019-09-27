@@ -36,7 +36,7 @@ final class MockChatService: ChatService {
 }
 
 final class ChatServiceImpl: NSObject, URLSessionDelegate, ChatService {
-    static private let urlString = "http://5a17efef.ngrok.io"
+    static private let urlString = "http://95.213.38.6:1488"
 
     lazy private var session: URLSession = {
         let sessionConfiguration = URLSessionConfiguration.default
@@ -46,19 +46,16 @@ final class ChatServiceImpl: NSObject, URLSessionDelegate, ChatService {
     }()
 
     func send(message: String, then handler: @escaping AnswerHandler) {
-        guard let serviceUrl = URL(string: "\(ChatServiceImpl.urlString)/text") else {
+        var components = URLComponents(string: "\(ChatServiceImpl.urlString)/text")
+        components?.queryItems = [URLQueryItem(name: "text", value: message)]
+
+        guard let serviceUrl = components?.url else {
             handler(.failure(.unknown))
             return
         }
-        let parameterDictionary = ["text" : message]
+
         var request = URLRequest(url: serviceUrl)
-        request.httpMethod = "POST"
-        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
-            handler(.failure(.unknown))
-            return
-        }
-        request.httpBody = httpBody
+        request.httpMethod = "GET"
 
         session.dataTask(with: request) { (data, response, error) in
             if let data = data,

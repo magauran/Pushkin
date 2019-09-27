@@ -172,9 +172,11 @@ final class ChatViewController: MessagesViewController {
     }
 
     private func sendMessage(_ message: Message) {
+        guard case let .text(text) = message.kind else { return assertionFailure() }
+
         self.insertMessage(message)
         self.setTypingIndicatorViewHidden(false, animated: true)
-        self.chatService.send(message: "Text") { [weak self] result in
+        self.chatService.send(message: text) { [weak self] result in
             guard let self = self else { return assertionFailure() }
             let answerMessage: Message
             switch result {
@@ -204,7 +206,6 @@ final class ChatViewController: MessagesViewController {
 
     private func insertMessage(_ message: Message) {
         self.messages.append(message)
-        // Reload last section to update header/footer labels and insert a new one
         self.messagesCollectionView.performBatchUpdates({
             messagesCollectionView.insertSections([self.messages.count - 1])
             if self.messages.count >= 2 {
