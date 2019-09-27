@@ -8,5 +8,8 @@ target 'Pushkin' do
   # Pods for Pushkin
   pod 'MessageKit'
   pod 'SnapKit', '~> 5.0.0'
+  pod 'Closures'
+  pod 'Keyboardy'
+  pod 'Repeat'
 
 end

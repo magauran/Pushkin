@@ -8,6 +8,11 @@
 
 import MessageKit
 import class CoreLocation.CLLocation
+import SnapKit
+import Closures
+import InputBarAccessoryView
+import Repeat
+import Keyboardy
 
 struct Sender: SenderType {
     let senderId = UUID().uuidString
@@ -48,6 +53,54 @@ final class ChatViewController: MessagesViewController {
         Message(sender: self.bot, messageId: "10", sentDate: Date().addingTimeInterval(-1), kind: .text("На всякий случай вот мой номер: 88005553535"))
     ]
 
+    private lazy var menuStackView: UIStackView = {
+        let cameraButton = UIButton()
+        cameraButton.setImage(UIImage(named: "camera"), for: .normal)
+        cameraButton.onTap { [weak self] in
+            self?.configureMessageInputBarForPhoto()
+        }
+
+        let keyboardButton = UIButton()
+        keyboardButton.setImage(UIImage(named: "keyboard"), for: .normal)
+        keyboardButton.onTap { [weak self] in
+            self?.configureMessageInputBarForKeyboard()
+        }
+
+        let microphoneButton = UIButton()
+        microphoneButton.setImage(UIImage(named: "microphone"), for: .normal)
+        microphoneButton.onTap { [weak self] in
+            self?.configureMessageInputBarForSpeech()
+        }
+
+        let buttons = [keyboardButton, microphoneButton, cameraButton]
+
+        buttons.forEach { button in
+            button.imageView?.contentMode = .scaleAspectFit
+        }
+
+        let spaces = [UIView(), UIView()]
+        spaces.forEach {
+            $0.snp.makeConstraints { make in
+                make.width.equalTo(40)
+            }
+        }
+
+        let stackView = UIStackView(arrangedSubviews: [spaces[0]] + buttons + [spaces[1]])
+        stackView.axis = .horizontal
+        stackView.distribution = .equalCentering
+        stackView.snp.makeConstraints { make in
+            make.height.equalTo(38)
+        }
+
+        return stackView
+    }()
+
+    lazy var debouncer = Debouncer(.seconds(1)) {
+        DispatchQueue.main.async { [weak self] in
+            self?.configureMessageInputBarForMenu()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -55,11 +108,37 @@ final class ChatViewController: MessagesViewController {
         self.messagesCollectionView.messagesLayoutDelegate = self
         self.messagesCollectionView.messagesDisplayDelegate = self
 
-        self.setupMessageInputBar()
+        self.configureMessageInputBarForMenu()
     }
 
-    private func setupMessageInputBar() {
-        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.registerForKeyboardNotifications(self)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        self.unregisterFromKeyboardNotifications()
+    }
+
+    private func configureMessageInputBarForMenu() {
+        self.messageInputBar.setMiddleContentView(self.menuStackView, animated: false)
+        self.messageInputBar.setRightStackViewWidthConstant(to: 0, animated: false)
+    }
+
+    private func configureMessageInputBarForKeyboard() {
+        self.messageInputBar.setMiddleContentView(self.messageInputBar.inputTextView, animated: true)
+        self.messageInputBar.setRightStackViewWidthConstant(to: 52, animated: true)
+    }
+
+    private func configureMessageInputBarForSpeech() {
+       
+    }
+
+    private func configureMessageInputBarForPhoto() {
+
     }
 }
 
@@ -86,5 +165,20 @@ extension ChatViewController: MessagesLayoutDelegate {
 extension ChatViewController: MessagesDisplayDelegate {
     func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
         return [.address, .date, .phoneNumber, .url]
+    }
+}
+
+extension ChatViewController: KeyboardStateDelegate {
+    func keyboardWillTransition(_ state: KeyboardState) {}
+
+    func keyboardTransitionAnimation(_ state: KeyboardState) {}
+
+    func keyboardDidTransition(_ state: KeyboardState) {
+        switch state {
+        case .activeWithHeight(_):
+            ()
+        case .hidden:
+            self.debouncer.call()
+        }
     }
 }
