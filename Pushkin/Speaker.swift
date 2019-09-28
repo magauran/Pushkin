@@ -20,4 +20,8 @@ final class Speaker {
         speechUtterance.postUtteranceDelay = 1
         self.speechSynthesizer.speak(speechUtterance)
     }
+
+    func stop() {
+        speechSynthesizer.stopSpeaking(at: .immediate)
+    }
 }

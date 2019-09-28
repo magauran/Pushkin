@@ -248,6 +248,8 @@ final class ChatViewController: MessagesViewController {
 
         var recordFinished = false
 
+        self.audioController.stopAnyOngoingPlaying()
+
         speechView.addTapGesture { [weak self] _ in
             guard let self = self else { return }
             recordFinished = true
@@ -540,6 +542,9 @@ extension ChatViewController: MessageCellDelegate {
                 print("Failed to identify message when audio cell receive tap gesture")
                 return
         }
+
+        self.speaker.stop()
+
         guard audioController.state != .stopped else {
             audioController.playSound(for: message, in: cell)
             return
