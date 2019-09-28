@@ -27,7 +27,7 @@ struct Message: MessageType {
     let sender: SenderType
     let messageId: String
     let sentDate: Date
-    let kind: MessageKind
+    var kind: MessageKind
 
     init(sender: SenderType, kind: MessageKind) {
         self.sender = sender
@@ -51,6 +51,8 @@ struct LocationMessage: LocationItem {
 
 final class ChatViewController: MessagesViewController {
     private let chatService: ChatService = ChatServiceImpl()
+    private let speechRecognizer = SpeechRecognizer()
+
     private let user = Sender(displayName: "Вы")
     private let bot = Sender(displayName: "Арина")
     private let system = Sender(displayName: "Система")
@@ -58,6 +60,7 @@ final class ChatViewController: MessagesViewController {
     private var messages = [Message]()
     private var state: MessangerState = .menu
     private var needInitialScrolling = false
+    private var hasUnsentMessage = false
 
     private lazy var menuStackView: UIStackView = {
         let cameraButton = UIButton()
@@ -194,23 +197,53 @@ final class ChatViewController: MessagesViewController {
         speechView.snp.makeConstraints { make in
             make.height.equalTo(150)
         }
+
+        var recordFinished = false
+
         speechView.addTapGesture { [weak self] _ in
-            self?.state = .menu
-            self?.configureMessageInputBarForMenu()
+            guard let self = self else { return }
+            recordFinished = true
+            self.speechRecognizer.stopRecording()
+            if self.hasUnsentMessage {
+                self.sendMessage(self.messages[self.messages.count - 1], needInsert: false)
+                self.hasUnsentMessage.toggle()
+            }
+            self.state = .menu
+            self.configureMessageInputBarForMenu()
         }
 
         self.messageInputBar.setMiddleContentView(speechView, animated: true)
         self.messageInputBar.setRightStackViewWidthConstant(to: 0, animated: true)
+
+        var newMessageId: String? = nil
+        self.speechRecognizer.startRecording { [weak self] question in
+            guard let self = self else { return }
+            guard !recordFinished else { return }
+            if self.messages.last?.messageId == .some(newMessageId) {
+                self.messages[self.messages.count - 1].kind = .text(question)
+                self.messagesCollectionView.performBatchUpdates({
+                    self.messagesCollectionView.reloadSections([self.messages.count - 1])
+                })
+            } else {
+                let newMessage = Message(sender: self.user, kind: .text(question))
+                newMessageId = newMessage.messageId
+                self.insertMessage(newMessage)
+                self.hasUnsentMessage = true
+            }
+        }
     }
 
     private func configureMessageInputBarForPhoto() {
 
     }
 
-    private func sendMessage(_ message: Message) {
+    private func sendMessage(_ message: Message, needInsert: Bool = true) {
         guard case let .text(text) = message.kind else { return assertionFailure() }
 
-        self.insertMessage(message)
+        if needInsert {
+            self.insertMessage(message)
+        }
+
         self.setTypingIndicatorViewHidden(false, animated: true)
         self.chatService.send(message: text) { [weak self] result in
             guard let self = self else { return assertionFailure() }
