@@ -88,11 +88,11 @@ final class SpeechRecognizer {
         } catch {
             print("audioEngine couldn't start because of an error.")
         }
-
     }
 
     func stopRecording() {
         self.audioEngine.stop()
         self.recognitionRequest?.endAudio()
+        try? AVAudioSession.sharedInstance().setCategory(.soloAmbient)
     }
 }

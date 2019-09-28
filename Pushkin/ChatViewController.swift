@@ -14,6 +14,7 @@ import Closures
 import InputBarAccessoryView
 import Repeat
 import Keyboardy
+import AVFoundation
 
 struct Sender: SenderType {
     let senderId = UUID().uuidString
@@ -38,6 +39,19 @@ struct Message: MessageType {
     }
 }
 
+struct Audio: AudioItem {
+    let url: URL
+    let size: CGSize
+    let duration: Float
+
+    init(url: URL) {
+        self.url = url
+        self.size = CGSize(width: 200, height: 40)
+        let audioAsset = AVURLAsset(url: url)
+        self.duration = Float(CMTimeGetSeconds(audioAsset.duration))
+    }
+}
+
 enum MessangerState {
     case menu
     case speech
@@ -55,6 +69,7 @@ final class ChatViewController: MessagesViewController {
     private let speechRecognizer = SpeechRecognizer()
     private let speaker = Speaker()
     private let calendarManager = CalendarManager()
+    private lazy var audioController = BasicAudioController(messageCollectionView: messagesCollectionView)
 
     private let user = Sender(displayName: "Вы")
     private let bot = Sender(displayName: "Арина")
@@ -153,6 +168,11 @@ final class ChatViewController: MessagesViewController {
         self.unregisterFromKeyboardNotifications()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.audioController.stopAnyOngoingPlaying()
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if self.needInitialScrolling {
@@ -172,7 +192,8 @@ final class ChatViewController: MessagesViewController {
             Message(sender: self.bot, kind: .text("Санкт-Петербург, Исакиевская площадь, д. 1")),
             Message(sender: self.bot, kind: .location(LocationMessage(location: CLLocation(latitude: 59.9338, longitude: 30.3030)))),
             Message(sender: self.user, kind: .text("Я подъеду завтра в 10 утра")),
-            Message(sender: self.bot, kind: .text("На всякий случай вот мой номер: 88005553535"))
+            Message(sender: self.bot, kind: .text("На всякий случай вот мой номер: 88005553535")),
+            Message(sender: self.system, kind: .audio(Audio(url: URL(string: "https://media.izi.travel/fae0d384-5475-4134-a0bf-eab6bbf42a1b/8456eea1-fbbd-4f1e-a1bc-80862ea23dd2.m4a")!))),
         ]
     }
 
@@ -389,6 +410,10 @@ extension ChatViewController: MessagesDisplayDelegate {
         avatarView.layer.borderWidth = 2
         avatarView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
     }
+
+    func configureAudioCell(_ cell: AudioMessageCell, message: MessageType) {
+        audioController.configureAudioCell(cell, message: message) // this is needed especily when the cell is reconfigure while is playing sound
+    }
 }
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
@@ -466,6 +491,28 @@ extension ChatViewController: MessageCellDelegate {
             viewController.dismiss(animated: true) {
                 self?.messageInputBar.isHidden = false
             }
+        }
+    }
+
+    func didTapPlayButton(in cell: AudioMessageCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell),
+            let message = messagesCollectionView.messagesDataSource?.messageForItem(at: indexPath, in: messagesCollectionView) else {
+                print("Failed to identify message when audio cell receive tap gesture")
+                return
+        }
+        guard audioController.state != .stopped else {
+            audioController.playSound(for: message, in: cell)
+            return
+        }
+        if audioController.playingMessage?.messageId == message.messageId {
+            if audioController.state == .playing {
+                audioController.pauseSound(for: message, in: cell)
+            } else {
+                audioController.resumeSound()
+            }
+        } else {
+            audioController.stopAnyOngoingPlaying()
+            audioController.playSound(for: message, in: cell)
         }
     }
 }

@@ -19,6 +19,7 @@
 		88D4EEA8233F53AA0066DCF8 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */; };
 		88D4EEAA233F916A0066DCF8 /* Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEA9233F916A0066DCF8 /* Speaker.swift */; };
 		88D4EEAC233FB5330066DCF8 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */; };
+		88D4EEB6233FCD2C0066DCF8 /* BasicAudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEB5233FCD2C0066DCF8 /* BasicAudioController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		88D4EEA9233F916A0066DCF8 /* Speaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speaker.swift; sourceTree = "<group>"; };
 		88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		88D4EEB5233FCD2C0066DCF8 /* BasicAudioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAudioController.swift; sourceTree = "<group>"; };
 		D85F953060E5726D5C991CE9 /* Pods-Pushkin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pushkin.debug.xcconfig"; path = "Target Support Files/Pods-Pushkin/Pods-Pushkin.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 				889FD3A9233E5FA800227A7C /* ViewController.swift */,
 				889FD3B9233E63E000227A7C /* ChatViewController.swift */,
 				88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */,
+				88D4EEB5233FCD2C0066DCF8 /* BasicAudioController.swift */,
 				889FD3BD233EB14A00227A7C /* ChatService.swift */,
 				889FD3BB233EAAD900227A7C /* SpeechView.swift */,
 				88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */,
@@ -224,6 +227,7 @@
 				889FD3AA233E5FA800227A7C /* ViewController.swift in Sources */,
 				889FD3A6233E5FA800227A7C /* AppDelegate.swift in Sources */,
 				889FD3BC233EAAD900227A7C /* SpeechView.swift in Sources */,
+				88D4EEB6233FCD2C0066DCF8 /* BasicAudioController.swift in Sources */,
 				889FD3BE233EB14A00227A7C /* ChatService.swift in Sources */,
 				88D4EEAA233F916A0066DCF8 /* Speaker.swift in Sources */,
 				88D4EEAC233FB5330066DCF8 /* CalendarManager.swift in Sources */,
