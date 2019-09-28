@@ -542,3 +542,30 @@ extension ChatViewController: MessageCellDelegate {
         }
     }
 }
+
+
+extension ChatMessage {
+    func mapToMessageKind() -> MessageKind {
+        switch self {
+        case let plainTextMessage as PlainTextMessage:
+            return .text(plainTextMessage.text)
+        case let coordsMessage as CoordsMessage:
+            return .location(LocationMessage(location: CLLocation(latitude: coordsMessage.latitude, longitude: coordsMessage.longitude)))
+        case let audioMessage as SoundMessage:
+            assertionFailure()
+            return .text("")
+        case let imageMessage as ImageMessage:
+            assertionFailure()
+            return .text("")
+        default:
+            assertionFailure()
+            return .text("")
+        }
+    }
+}
+
+extension Array where Element == ChatMessage {
+    func mapToMessageKinds() -> [MessageKind] {
+        return self.map { $0.mapToMessageKind() }
+    }
+}
