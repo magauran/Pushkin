@@ -52,7 +52,7 @@ struct LocationMessage: LocationItem {
 final class ChatViewController: MessagesViewController {
     private let chatService: ChatService = ChatServiceImpl()
     private let user = Sender(displayName: "Вы")
-    private let bot = Sender(displayName: "Помощник")
+    private let bot = Sender(displayName: "Арина")
     private let system = Sender(displayName: "Система")
 
     private var messages = [Message]()
@@ -336,7 +336,7 @@ extension ChatViewController: MessagesDisplayDelegate {
 
         switch message.sender.senderId {
         case self.bot.senderId:
-            avatarView.image = UIImage(named: "pushkin")
+            avatarView.image = UIImage(named: "arina")
         case self.system.senderId:
             avatarView.image = UIImage(named: "robot")
         default: ()
