@@ -295,16 +295,17 @@ final class ChatViewController: MessagesViewController {
         self.setTypingIndicatorViewHidden(false, animated: true)
         self.chatService.send(message: text) { [weak self] result in
             guard let self = self else { return assertionFailure() }
-            let answerMessage: Message
+            let answerMessages: [Message]
             let speakText: String?
 
             switch result {
             case .success(let answer):
-                answerMessage = Message(sender: self.bot, kind: .text(answer))
-                speakText = answer
+                let messageKinds = answer.mapToMessageKinds()
+                answerMessages = messageKinds.map { Message(sender: self.bot, kind: $0) }
+                speakText = ""//answer
             case .failure(let error):
                 print(error)
-                answerMessage = Message(sender: self.system, kind: .text("Извини, сервак упал :с"))
+                answerMessages = [Message(sender: self.system, kind: .text("Извини, сервак упал :с"))]
                 speakText = nil
             }
 
@@ -313,7 +314,7 @@ final class ChatViewController: MessagesViewController {
                     true,
                     animated: true,
                     whilePerforming: { [weak self] in
-                        self?.insertMessage(answerMessage)
+                        self?.insertMessages(answerMessages)
                         speakText.map {
                             self?.speaker.speak(text: $0)
                         }
@@ -336,9 +337,22 @@ final class ChatViewController: MessagesViewController {
                 self.messagesCollectionView.reloadSections([self.messages.count - 2])
             }
         }, completion: { [weak self] _ in
-//            if self?.isLastSectionVisible() == true {
-                self?.messagesCollectionView.scrollToBottom(animated: true)
-//            }
+            self?.messagesCollectionView.scrollToBottom(animated: true)
+        })
+    }
+
+    private func insertMessages(_ newMessages: [Message]) {
+        self.messages.append(contentsOf: newMessages)
+        self.messagesCollectionView.performBatchUpdates({
+            let sections = newMessages.enumerated().map { self.messages.count - ($0.offset + 1) }
+            let indexSet = IndexSet(sections)
+//            messagesCollectionView.insertSections([self.messages.count - 1])
+            messagesCollectionView.insertSections(indexSet)
+            if self.messages.count >= 2 {
+                self.messagesCollectionView.reloadSections([self.messages.count - newMessages.count - 1])
+            }
+        }, completion: { [weak self] _ in
+            self?.messagesCollectionView.scrollToBottom(animated: true)
         })
     }
 
@@ -545,15 +559,18 @@ extension ChatViewController: MessageCellDelegate {
 
 
 extension ChatMessage {
-    func mapToMessageKind() -> MessageKind {
+    func mapToMessageKind() -> MessageKind? {
         switch self {
         case let plainTextMessage as PlainTextMessage:
             return .text(plainTextMessage.text)
         case let coordsMessage as CoordsMessage:
             return .location(LocationMessage(location: CLLocation(latitude: coordsMessage.latitude, longitude: coordsMessage.longitude)))
         case let audioMessage as SoundMessage:
-            assertionFailure()
-            return .text("")
+            if let url = URL(string: audioMessage.audioURL) {
+                return .audio(Audio(url: url))
+            } else {
+                return nil
+            }
         case let imageMessage as ImageMessage:
             assertionFailure()
             return .text("")
@@ -566,6 +583,6 @@ extension ChatMessage {
 
 extension Array where Element == ChatMessage {
     func mapToMessageKinds() -> [MessageKind] {
-        return self.map { $0.mapToMessageKind() }
+        return self.compactMap { $0.mapToMessageKind() }
     }
 }

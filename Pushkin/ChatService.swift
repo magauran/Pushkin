@@ -36,6 +36,7 @@ struct ChatResponse: Decodable {
     let image_url: String?
     let coords: String?
     let response: String?
+    let audio_url: String?
 }
 
 extension ChatResponse {
@@ -56,6 +57,11 @@ extension ChatResponse {
                 result.append(CoordsMessage(latitude: latitude, longitude: longitude))
             }
         }
+
+        if let audioURL = audio_url {
+            result.append(SoundMessage(audioURL: audioURL))
+        }
+        
         return result
     }
 }
