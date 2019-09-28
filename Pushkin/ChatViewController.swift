@@ -57,6 +57,7 @@ final class ChatViewController: MessagesViewController {
 
     private var messages = [Message]()
     private var state: MessangerState = .menu
+    private var needInitialScrolling = false
 
     private lazy var menuStackView: UIStackView = {
         let cameraButton = UIButton()
@@ -135,12 +136,22 @@ final class ChatViewController: MessagesViewController {
         super.viewWillAppear(animated)
 
         self.registerForKeyboardNotifications(self)
+        self.messagesCollectionView.scrollToBottom(animated: true)
+        self.needInitialScrolling = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         self.unregisterFromKeyboardNotifications()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if self.needInitialScrolling {
+            self.messagesCollectionView.scrollToBottom(animated: true)
+            self.needInitialScrolling.toggle()
+        }
     }
 
     private func fillMessages() {
@@ -166,6 +177,7 @@ final class ChatViewController: MessagesViewController {
     private func configureMessageInputBarForMenu() {
         self.messageInputBar.setMiddleContentView(self.menuStackView, animated: false)
         self.messageInputBar.setRightStackViewWidthConstant(to: 0, animated: true)
+        self.messagesCollectionView.scrollToBottom(animated: true)
     }
 
     private func configureMessageInputBarForKeyboard() {
@@ -173,7 +185,6 @@ final class ChatViewController: MessagesViewController {
         self.messageInputBar.setRightStackViewWidthConstant(to: 52, animated: true)
         self.messageInputBar.setStackViewItems([], forStack: .bottom, animated: true)
         self.messageInputBar.inputTextView.becomeFirstResponder()
-        self.messagesCollectionView.scrollToBottom(animated: true)
         self.messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 8)
         self.messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 8)
     }
@@ -356,6 +367,11 @@ extension ChatViewController: KeyboardStateDelegate {
         switch state {
         case .activeWithHeight(let height):
             guard height > 100 else { return }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // 0.3 - duration of messageInputBar layout animation
+                self.messagesCollectionView.scrollToBottom(animated: true)
+            }
+
             guard self.state == .keyboard, self.messageInputBar.leftStackViewWidthConstant == 0 else { return }
             let hideKeyboardButton = InputBarButtonItem(type: .system)
             hideKeyboardButton.setImage(UIImage(named: "hide_keyboard"), for: .normal)
