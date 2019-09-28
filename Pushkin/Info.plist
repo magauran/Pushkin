@@ -41,28 +41,30 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSExceptionDomains</key>
-        <dict>
-            <key>c278d005.ngrok.io</key>
-            <dict>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSExceptionRequiresForwardSecrecy</key>
-                <false/>
-                <key>NSExceptionMinimumTLSVersion</key>
-                <string>TLSv1.0</string>
-            </dict>
-        </dict>
-    </dict>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Ваш микрофон будет использован для распознавания голосовых команд.</string>
-    <key>NSSpeechRecognitionUsageDescription</key>
-    <string>Распознавание речи будет использовано для распознавания голосовых команд.</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>Доступ к календарю необходим для создания событий.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>c278d005.ngrok.io</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.0</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Ваш микрофон будет использован для распознавания голосовых команд.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Распознавание речи будет использовано для распознавания голосовых команд.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Доступ к календарю необходим для создания событий.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Камера нужна для распознавания QR-кодов</string>
 </dict>
 </plist>

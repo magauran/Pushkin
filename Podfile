@@ -12,5 +12,6 @@ target 'Pushkin' do
   pod 'Keyboardy'
   pod 'Repeat'
   pod 'SwiftSiriWaveformView'
+  pod 'QRCodeReader.swift', '~> 10.1.0'
 
 end

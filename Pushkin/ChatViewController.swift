@@ -15,6 +15,7 @@ import InputBarAccessoryView
 import Repeat
 import Keyboardy
 import AVFoundation
+import QRCodeReader
 
 struct Sender: SenderType {
     let senderId = UUID().uuidString
@@ -130,6 +131,22 @@ final class ChatViewController: MessagesViewController {
             self?.configureMessageInputBarForMenu()
         }
     }
+
+    lazy var readerVC: QRCodeReaderViewController = {
+        let builder = QRCodeReaderViewControllerBuilder {
+            $0.reader = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
+
+            $0.showTorchButton        = false
+            $0.showSwitchCameraButton = false
+            $0.showCancelButton       = false
+            $0.showOverlayView        = false
+            $0.rectOfInterest         = CGRect(x: 0.2, y: 0.25, width: 0.6, height: 0.5)
+        }
+
+        let vc = QRCodeReaderViewController(builder: builder)
+
+        return vc
+    }()
 
     override func viewDidLoad() {
         self.messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: ActionButtonsMessagesFlowLayout())
@@ -284,7 +301,8 @@ final class ChatViewController: MessagesViewController {
     }
 
     private func configureMessageInputBarForPhoto() {
-
+        self.readerVC.modalPresentationStyle = .formSheet
+        self.present(readerVC, animated: true, completion: nil)
     }
 
     private func sendMessage(_ message: Message, needInsert: Bool = true) {
