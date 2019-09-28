@@ -6,7 +6,7 @@ target 'Pushkin' do
   use_frameworks!
 
   # Pods for Pushkin
-  pod 'MessageKit'
+  pod 'MessageKit', :git => 'https://github.com/magauran/MessageKit', :branch => 'master'
   pod 'SnapKit', '~> 5.0.0'
   pod 'Closures'
   pod 'Keyboardy'
