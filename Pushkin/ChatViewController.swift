@@ -112,6 +112,11 @@ final class ChatViewController: MessagesViewController {
         let layout = self.messagesCollectionView.messagesCollectionViewFlowLayout
         layout.setMessageIncomingAvatarSize(.init(width: 40, height: 40))
         layout.setMessageOutgoingAvatarSize(.zero)
+        layout.setMessageIncomingMessageTopLabelAlignment(
+            LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 0))
+        )
+        self.messagesCollectionView.contentInset.top = 20
+        self.additionalBottomInset = 30
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -228,6 +233,16 @@ final class ChatViewController: MessagesViewController {
         let lastIndexPath = IndexPath(item: 0, section: self.messages.count - 1)
         return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
     }
+
+    private func isPreviousMessageSameSender(at indexPath: IndexPath) -> Bool {
+        guard self.messages.indices.contains(indexPath.section - 1) else { return false }
+        return self.messages[indexPath.section].sender.senderId == self.messages[indexPath.section - 1].sender.senderId
+    }
+
+    private func isNextMessageSameSender(at indexPath: IndexPath) -> Bool {
+        guard self.messages.indices.contains(indexPath.section + 1) else { return false }
+        return self.messages[indexPath.section].sender.senderId == self.messages[indexPath.section + 1].sender.senderId
+    }
 }
 
 extension ChatViewController: MessagesDataSource {
@@ -242,13 +257,39 @@ extension ChatViewController: MessagesDataSource {
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return self.messages.count
     }
+
+    func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        let name = message.sender.displayName
+        return NSAttributedString(string: name, attributes: [.font: UIFont.preferredFont(forTextStyle: .caption1)])
+    }
 }
 
 extension ChatViewController: MessagesLayoutDelegate {
+    func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        if self.isFromCurrentSender(message: message) {
+            return 0
+        } else {
+            return !self.isPreviousMessageSameSender(at: indexPath) ? 20 : 0
+        }
+    }
 
+    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return self.isNextMessageSameSender(at: indexPath) ? 0 : 5
+    }
 }
 
 extension ChatViewController: MessagesDisplayDelegate {
+    func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+        let message = self.messages[indexPath.section]
+        let tailCorner: MessageStyle.TailCorner = message.sender.senderId == self.user.senderId ? .bottomRight : .bottomLeft
+        if self.isNextMessageSameSender(at: indexPath) {
+            return MessageStyle.bubble
+        } else {
+            return MessageStyle.bubbleTail(tailCorner, .pointedEdge)
+        }
+
+    }
+
     func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
         return [.address, .date, .phoneNumber, .url]
     }
@@ -259,7 +300,13 @@ extension ChatViewController: MessagesDisplayDelegate {
         at indexPath: IndexPath,
         in messagesCollectionView: MessagesCollectionView
     ) {
+        guard !self.isNextMessageSameSender(at: indexPath) else {
+            avatarView.isHidden = true
+            return
+        }
+
         let message = self.messages[indexPath.section]
+
 
         switch message.sender.senderId {
         case self.bot.senderId:
