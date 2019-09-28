@@ -62,5 +62,7 @@
     <string>Ваш микрофон будет использован для распознавания голосовых команд.</string>
     <key>NSSpeechRecognitionUsageDescription</key>
     <string>Распознавание речи будет использовано для распознавания голосовых команд.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Доступ к календарю необходим для создания событий.</string>
 </dict>
 </plist>

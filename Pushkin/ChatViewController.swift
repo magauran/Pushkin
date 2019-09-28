@@ -54,6 +54,7 @@ final class ChatViewController: MessagesViewController {
     private let chatService: ChatService = ChatServiceImpl()
     private let speechRecognizer = SpeechRecognizer()
     private let speaker = Speaker()
+    private let calendarManager = CalendarManager()
 
     private let user = Sender(displayName: "Вы")
     private let bot = Sender(displayName: "Арина")
@@ -170,7 +171,7 @@ final class ChatViewController: MessagesViewController {
             Message(sender: self.system, kind: .text("Ты где?")),
             Message(sender: self.bot, kind: .text("Санкт-Петербург, Исакиевская площадь, д. 1")),
             Message(sender: self.bot, kind: .location(LocationMessage(location: CLLocation(latitude: 59.9338, longitude: 30.3030)))),
-            Message(sender: self.user, kind: .text("Сейчас подъеду")),
+            Message(sender: self.user, kind: .text("Я подъеду завтра в 10 утра")),
             Message(sender: self.bot, kind: .text("На всякий случай вот мой номер: 88005553535"))
         ]
     }
@@ -457,4 +458,14 @@ extension ChatViewController: MessageCellDelegate {
         }
     }
 
+    func didSelectDate(_ date: Date) {
+        self.calendarManager.openEventCreator(date: date, showingHandler: { [weak self] viewController in
+            self?.messageInputBar.isHidden = true
+            self?.present(viewController, animated: true)
+        }) { [weak self] viewController in
+            viewController.dismiss(animated: true) {
+                self?.messageInputBar.isHidden = false
+            }
+        }
+    }
 }
