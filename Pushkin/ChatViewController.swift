@@ -92,7 +92,7 @@ final class ChatViewController: MessagesViewController {
         return stackView
     }()
 
-    lazy var debouncer = Debouncer(.seconds(1)) {
+    lazy var debouncer = Debouncer(.seconds(0.2)) {
         DispatchQueue.main.async { [weak self] in
             self?.configureMessageInputBarForMenu()
         }
@@ -116,7 +116,8 @@ final class ChatViewController: MessagesViewController {
             LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 0))
         )
         self.messagesCollectionView.contentInset.top = 20
-        self.additionalBottomInset = 30
+        self.additionalBottomInset = 20
+        self.messagesCollectionView.showsVerticalScrollIndicator = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -162,6 +163,8 @@ final class ChatViewController: MessagesViewController {
         self.messageInputBar.setStackViewItems([], forStack: .bottom, animated: true)
         self.messageInputBar.inputTextView.becomeFirstResponder()
         self.messagesCollectionView.scrollToBottom(animated: true)
+        self.messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 8)
+        self.messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 8)
     }
 
     private func configureMessageInputBarForSpeech() {
@@ -339,8 +342,21 @@ extension ChatViewController: KeyboardStateDelegate {
 
     func keyboardDidTransition(_ state: KeyboardState) {
         switch state {
-        case .activeWithHeight(_):
-            ()
+        case .activeWithHeight(let height):
+            guard height > 100 else { return }
+            guard self.messageInputBar.leftStackViewWidthConstant == 0 else { return }
+            let hideKeyboardButton = InputBarButtonItem(type: .system)
+            hideKeyboardButton.setImage(UIImage(named: "hide_keyboard"), for: .normal)
+            hideKeyboardButton.snp.makeConstraints { make in
+                make.size.equalTo(CGSize(width: 35, height: 35))
+            }
+            hideKeyboardButton.onTap { [weak self] in
+                self?.messageInputBar.inputTextView.resignFirstResponder()
+                self?.messageInputBar.setStackViewItems([], forStack: .left, animated: true)
+                self?.messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: true)
+            }
+            self.messageInputBar.setLeftStackViewWidthConstant(to: 35, animated: true)
+            self.messageInputBar.setStackViewItems([hideKeyboardButton], forStack: .left, animated: true)
         case .hidden:
             self.debouncer.call()
         }
