@@ -28,7 +28,7 @@ final class SpeechView: UIView {
             make.top.equalTo(self.snp.top)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             make.left.equalTo(-10)
-            make.right.equalTo(10)
+            make.right.equalTo(18)
         }
     }
 

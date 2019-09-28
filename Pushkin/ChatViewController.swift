@@ -37,6 +37,13 @@ struct Message: MessageType {
     }
 }
 
+enum MessangerState {
+    case menu
+    case speech
+    case keyboard
+    case photo
+}
+
 struct LocationMessage: LocationItem {
     let location: CLLocation
     let size = CGSize(width: 270, height: 100)
@@ -49,23 +56,27 @@ final class ChatViewController: MessagesViewController {
     private let system = Sender(displayName: "Система")
 
     private var messages = [Message]()
+    private var state: MessangerState = .menu
 
     private lazy var menuStackView: UIStackView = {
         let cameraButton = UIButton()
         cameraButton.setImage(UIImage(named: "camera"), for: .normal)
         cameraButton.onTap { [weak self] in
+            self?.state = .photo
             self?.configureMessageInputBarForPhoto()
         }
 
         let keyboardButton = UIButton()
         keyboardButton.setImage(UIImage(named: "keyboard"), for: .normal)
         keyboardButton.onTap { [weak self] in
+            self?.state = .keyboard
             self?.configureMessageInputBarForKeyboard()
         }
 
         let microphoneButton = UIButton()
         microphoneButton.setImage(UIImage(named: "microphone"), for: .normal)
         microphoneButton.onTap { [weak self] in
+            self?.state = .speech
             self?.configureMessageInputBarForSpeech()
         }
 
@@ -153,7 +164,7 @@ final class ChatViewController: MessagesViewController {
     }
 
     private func configureMessageInputBarForMenu() {
-        self.messageInputBar.setMiddleContentView(self.menuStackView, animated: true)
+        self.messageInputBar.setMiddleContentView(self.menuStackView, animated: false)
         self.messageInputBar.setRightStackViewWidthConstant(to: 0, animated: true)
     }
 
@@ -173,6 +184,7 @@ final class ChatViewController: MessagesViewController {
             make.height.equalTo(150)
         }
         speechView.addTapGesture { [weak self] _ in
+            self?.state = .menu
             self?.configureMessageInputBarForMenu()
         }
 
@@ -344,7 +356,7 @@ extension ChatViewController: KeyboardStateDelegate {
         switch state {
         case .activeWithHeight(let height):
             guard height > 100 else { return }
-            guard self.messageInputBar.leftStackViewWidthConstant == 0 else { return }
+            guard self.state == .keyboard, self.messageInputBar.leftStackViewWidthConstant == 0 else { return }
             let hideKeyboardButton = InputBarButtonItem(type: .system)
             hideKeyboardButton.setImage(UIImage(named: "hide_keyboard"), for: .normal)
             hideKeyboardButton.snp.makeConstraints { make in
@@ -359,6 +371,8 @@ extension ChatViewController: KeyboardStateDelegate {
             self.messageInputBar.setStackViewItems([hideKeyboardButton], forStack: .left, animated: true)
         case .hidden:
             self.debouncer.call()
+            self.messageInputBar.setStackViewItems([], forStack: .left, animated: true)
+            self.messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: true)
         }
     }
 }
