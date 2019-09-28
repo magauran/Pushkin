@@ -52,6 +52,7 @@ struct LocationMessage: LocationItem {
 final class ChatViewController: MessagesViewController {
     private let chatService: ChatService = ChatServiceImpl()
     private let speechRecognizer = SpeechRecognizer()
+    private let speaker = Speaker()
 
     private let user = Sender(displayName: "Вы")
     private let bot = Sender(displayName: "Арина")
@@ -248,12 +249,16 @@ final class ChatViewController: MessagesViewController {
         self.chatService.send(message: text) { [weak self] result in
             guard let self = self else { return assertionFailure() }
             let answerMessage: Message
+            let speakText: String?
+
             switch result {
             case .success(let answer):
                 answerMessage = Message(sender: self.bot, kind: .text(answer))
+                speakText = answer
             case .failure(let error):
                 print(error)
                 answerMessage = Message(sender: self.system, kind: .text("Извини, сервак упал :с"))
+                speakText = nil
             }
 
             DispatchQueue.main.async {
@@ -262,6 +267,9 @@ final class ChatViewController: MessagesViewController {
                     animated: true,
                     whilePerforming: { [weak self] in
                         self?.insertMessage(answerMessage)
+                        speakText.map {
+                            self?.speaker.speak(text: $0)
+                        }
                     },
                     completion: { [weak self] success in
                         if success, self?.isLastSectionVisible() == true {
