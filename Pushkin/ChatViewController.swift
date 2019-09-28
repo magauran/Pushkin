@@ -360,7 +360,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
 
     func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
-        return [.address, .date, .phoneNumber, .url]
+        return [.date, .phoneNumber, .url]
     }
 
     func configureAvatarView(
@@ -450,4 +450,11 @@ extension ChatViewController: MessageCellDelegate {
             )
         }
     }
+
+    func didSelectPhoneNumber(_ phoneNumber: String) {
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(phoneCallURL) {
+            UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
+        }
+    }
+
 }
