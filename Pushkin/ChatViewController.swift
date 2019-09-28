@@ -8,6 +8,7 @@
 
 import MessageKit
 import class CoreLocation.CLLocation
+import MapKit
 import SnapKit
 import Closures
 import InputBarAccessoryView
@@ -122,6 +123,7 @@ final class ChatViewController: MessagesViewController {
         self.messagesCollectionView.messagesDataSource = self
         self.messagesCollectionView.messagesLayoutDelegate = self
         self.messagesCollectionView.messagesDisplayDelegate = self
+        self.messagesCollectionView.messageCellDelegate = self
 
         self.configureMessageInputBar()
 
@@ -430,6 +432,22 @@ extension ChatViewController: KeyboardStateDelegate {
             self.debouncer.call()
             self.messageInputBar.setStackViewItems([], forStack: .left, animated: true)
             self.messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: true)
+        }
+    }
+}
+
+extension ChatViewController: MessageCellDelegate {
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        if let locationCell = cell as? LocationMessageCell {
+            guard let coordinate = locationCell.locationCoordinate else { return }
+
+            let destination = MKMapItem(placemark: MKPlacemark(coordinate: coordinate))
+            destination.name = "Пушкинский музей"
+
+            MKMapItem.openMaps(
+                with: [destination],
+                launchOptions: [:]
+            )
         }
     }
 }
