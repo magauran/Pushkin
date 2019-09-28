@@ -46,6 +46,7 @@ final class ChatViewController: MessagesViewController {
     private let chatService: ChatService = ChatServiceImpl()
     private let user = Sender(displayName: "Вы")
     private let bot = Sender(displayName: "Помощник")
+    private let system = Sender(displayName: "Система")
 
     private var messages = [Message]()
 
@@ -107,6 +108,10 @@ final class ChatViewController: MessagesViewController {
         self.messagesCollectionView.messagesDisplayDelegate = self
 
         self.configureMessageInputBar()
+
+        let layout = self.messagesCollectionView.messagesCollectionViewFlowLayout
+        layout.setMessageIncomingAvatarSize(.init(width: 40, height: 40))
+        layout.setMessageOutgoingAvatarSize(.zero)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -128,7 +133,7 @@ final class ChatViewController: MessagesViewController {
             Message(sender: self.user, kind: .text("Норм")),
             Message(sender: self.bot, kind: .text("А у тебя?")),
             Message(sender: self.user, kind: .text("Тоже")),
-            Message(sender: self.user, kind: .text("Ты где?")),
+            Message(sender: self.system, kind: .text("Ты где?")),
             Message(sender: self.bot, kind: .text("Санкт-Петербург, Исакиевская площадь, д. 1")),
             Message(sender: self.bot, kind: .location(LocationMessage(location: CLLocation(latitude: 59.9338, longitude: 30.3030)))),
             Message(sender: self.user, kind: .text("Сейчас подъеду")),
@@ -184,7 +189,7 @@ final class ChatViewController: MessagesViewController {
                 answerMessage = Message(sender: self.bot, kind: .text(answer))
             case .failure(let error):
                 print(error)
-                answerMessage = Message(sender: self.bot, kind: .text("Извини, сервак упал :с"))
+                answerMessage = Message(sender: self.system, kind: .text("Извини, сервак упал :с"))
             }
 
             DispatchQueue.main.async {
@@ -246,6 +251,26 @@ extension ChatViewController: MessagesLayoutDelegate {
 extension ChatViewController: MessagesDisplayDelegate {
     func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
         return [.address, .date, .phoneNumber, .url]
+    }
+
+    func configureAvatarView(
+        _ avatarView: AvatarView,
+        for message: MessageType,
+        at indexPath: IndexPath,
+        in messagesCollectionView: MessagesCollectionView
+    ) {
+        let message = self.messages[indexPath.section]
+
+        switch message.sender.senderId {
+        case self.bot.senderId:
+            avatarView.image = UIImage(named: "pushkin")
+        case self.system.senderId:
+            avatarView.image = UIImage(named: "robot")
+        default: ()
+        }
+
+        avatarView.layer.borderWidth = 2
+        avatarView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
     }
 }
 
