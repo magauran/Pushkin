@@ -302,7 +302,7 @@ final class ChatViewController: MessagesViewController {
             case .success(let answer):
                 let messageKinds = answer.mapToMessageKinds()
                 answerMessages = messageKinds.map { Message(sender: self.bot, kind: $0) }
-                speakText = ""//answer
+                speakText = answer.compactMap { $0.speechText }.joined(separator: ". ")
             case .failure(let error):
                 print(error)
                 answerMessages = [Message(sender: self.system, kind: .text("Извини, сервак упал :с"))]

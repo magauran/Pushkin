@@ -13,10 +13,22 @@ enum ChatError: Error {
     case unknown
 }
 
-protocol ChatMessage {}
+protocol ChatMessage {
+    var speechText: String? { get }
+}
+
+extension ChatMessage {
+    var speechText: String? {
+        return nil
+    }
+}
 
 struct PlainTextMessage: ChatMessage {
     let text: String
+
+    var speechText: String? {
+        return self.text
+    }
 }
 
 struct ImageMessage: ChatMessage {
