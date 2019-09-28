@@ -75,7 +75,7 @@ final class ChatViewController: MessagesViewController {
     private let bot = Sender(displayName: "Арина")
     private let system = Sender(displayName: "Система")
 
-    private var messages = [Message]()
+    private(set) var messages = [Message]()
     private var state: MessangerState = .menu
     private var needInitialScrolling = false
     private var hasUnsentMessage = false
@@ -132,7 +132,11 @@ final class ChatViewController: MessagesViewController {
     }
 
     override func viewDidLoad() {
+        self.messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: ActionButtonsMessagesFlowLayout())
+        self.messagesCollectionView.register(ActionButtonsMessageCell.self)
+
         super.viewDidLoad()
+
 
         self.fillMessages()
 
@@ -181,7 +185,25 @@ final class ChatViewController: MessagesViewController {
         }
     }
 
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard messages.indices.contains(indexPath.section) else { return super.collectionView(collectionView, cellForItemAt: indexPath) }
+        let message = self.messageForItem(at: indexPath, in: self.messagesCollectionView)
+        if case .custom = message.kind {
+            let cell = self.messagesCollectionView.dequeueReusableCell(ActionButtonsMessageCell.self, for: indexPath)
+            cell.configure(with: message, at: indexPath, and: self.messagesCollectionView)
+            return cell
+        }
+        return super.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+
     private func fillMessages() {
+        let buttonModels = [
+            ActionButtonModel(displayTitle: "Кнопка1", action: "action1"),
+            ActionButtonModel(displayTitle: "Кнопка2", action: "action2"),
+            ActionButtonModel(displayTitle: "Кнопка3", action: "action3")
+        ]
+        let yetAnotherMessage = Message(sender: self.bot, kind: .custom(buttonModels))
+
         self.messages = [
             Message(sender: self.user, kind: .text("Привет")),
             Message(sender: self.bot, kind: .text("Как дела?")),
@@ -194,6 +216,7 @@ final class ChatViewController: MessagesViewController {
             Message(sender: self.user, kind: .text("Я подъеду завтра в 10 утра")),
             Message(sender: self.bot, kind: .text("На всякий случай вот мой номер: 88005553535")),
             Message(sender: self.system, kind: .audio(Audio(url: URL(string: "https://media.izi.travel/fae0d384-5475-4134-a0bf-eab6bbf42a1b/8456eea1-fbbd-4f1e-a1bc-80862ea23dd2.m4a")!))),
+            yetAnotherMessage, yetAnotherMessage
         ]
     }
 
@@ -313,9 +336,9 @@ final class ChatViewController: MessagesViewController {
                 self.messagesCollectionView.reloadSections([self.messages.count - 2])
             }
         }, completion: { [weak self] _ in
-            if self?.isLastSectionVisible() == true {
+//            if self?.isLastSectionVisible() == true {
                 self?.messagesCollectionView.scrollToBottom(animated: true)
-            }
+//            }
         })
     }
 
@@ -391,10 +414,10 @@ extension ChatViewController: MessagesDisplayDelegate {
         at indexPath: IndexPath,
         in messagesCollectionView: MessagesCollectionView
     ) {
-        guard !self.isNextMessageSameSender(at: indexPath) else {
-            avatarView.isHidden = true
-            return
-        }
+//        guard !self.isNextMessageSameSender(at: indexPath) else {
+//            avatarView.isHidden = true
+//            return
+//        }
 
         let message = self.messages[indexPath.section]
 
@@ -404,7 +427,10 @@ extension ChatViewController: MessagesDisplayDelegate {
             avatarView.image = UIImage(named: "arina")
         case self.system.senderId:
             avatarView.image = UIImage(named: "robot")
-        default: ()
+        case self.user.senderId:
+            ()
+        default:
+            print("что-то пошло не так")
         }
 
         avatarView.layer.borderWidth = 2
