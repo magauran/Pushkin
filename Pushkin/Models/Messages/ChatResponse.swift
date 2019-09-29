@@ -9,7 +9,7 @@
 import Foundation
 
 struct ChatResponse: Decodable {
-    let image_url: String?
+    let img_url: String?
     let coords: String?
     let response: String?
     let audio_url: String?
@@ -23,7 +23,7 @@ extension ChatResponse {
             result.append(PlainTextMessage(text: text))
         }
 
-        if let imageURL = image_url {
+        if let imageURL = img_url {
             result.append(ImageMessage(imageURL: imageURL))
         }
 

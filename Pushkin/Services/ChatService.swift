@@ -36,7 +36,7 @@ final class MockChatService: ChatService {
 }
 
 final class ChatServiceImpl: NSObject, URLSessionDelegate, ChatService {
-    static private let urlString = "http://e995cc74.ngrok.io"
+    static private let urlString = "http://6d7a9a44.ngrok.io"
 
     lazy private var session: URLSession = {
         let sessionConfiguration = URLSessionConfiguration.default
@@ -61,6 +61,7 @@ final class ChatServiceImpl: NSObject, URLSessionDelegate, ChatService {
             if let data = data,
                 let httpResponse = response as? HTTPURLResponse,
                 httpResponse.statusCode == 200 {
+                print(String(decoding: data, as: UTF8.self))
                 let answer = data.parseToChatResponses().mapToChatMessages()
                 if answer.isEmpty {
                     handler(.failure(.unknown))
