@@ -367,6 +367,12 @@ final class ChatViewController: MessagesViewController {
         guard self.messages.indices.contains(indexPath.section + 1) else { return false }
         return self.messages[indexPath.section].sender.senderId == self.messages[indexPath.section + 1].sender.senderId
     }
+
+    func didSelectURL(_ url: URL) {
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
 }
 
 extension ChatViewController: MessagesDataSource {
@@ -526,7 +532,7 @@ extension ChatViewController: KeyboardStateDelegate {
                 self?.messageInputBar.setStackViewItems([], forStack: .left, animated: true)
                 self?.messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: true)
             }
-            self.messageInputBar.setLeftStackViewWidthConstant(to: 35, animated: true)
+            self.messageInputBar.setLeftStackViewWidthConstant(to: 30, animated: true)
             self.messageInputBar.setStackViewItems([hideKeyboardButton], forStack: .left, animated: true)
         case .hidden:
             self.debouncer.call()
