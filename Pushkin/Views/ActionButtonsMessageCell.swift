@@ -19,6 +19,9 @@ final class ActionButtonsMessageCell: UICollectionViewCell {
             let button = UIButton()
             button.setTitle(model.displayTitle, for: .normal)
             button.titleLabel?.textAlignment = .left
+            button.titleLabel?.lineBreakMode = .byTruncatingTail
+            button.titleLabel?.adjustsFontSizeToFitWidth = true
+            button.titleLabel?.minimumScaleFactor = 0.5
             button.snp.makeConstraints { make in
                 make.height.equalTo(40)
             }
@@ -28,7 +31,23 @@ final class ActionButtonsMessageCell: UICollectionViewCell {
             button.layer.masksToBounds = true
             button.layer.backgroundColor = UIColor(red: 128.0 / 255.0, green: 164.0 / 255.0, blue: 194.0 / 255.0, alpha: 0.6).cgColor
 
-            return button
+            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+
+            let wrapper = UIView()
+            wrapper.addSubview(button)
+            button.snp.makeConstraints { make in
+                make.top.equalToSuperview()
+                make.left.equalToSuperview()
+                make.bottom.equalToSuperview()
+//                make.right.lessThanOrEqualToSuperview()
+                make.right.equalToSuperview()
+            }
+
+            button.onTap { [weak messagesCollectionView] in
+                messagesCollectionView?.messageCellDelegate?.didTapActionButton(with: model.action)
+            }
+
+            return wrapper
         }
 
         let stack = UIStackView(arrangedSubviews: buttons)

@@ -41,6 +41,9 @@ struct CoordsMessage: ChatMessage {
     let longitude: Double
 }
 
+struct ButtonsMessage: ChatMessage {
+    let models: [ActionButtonModel]
+}
 
 extension ChatMessage {
     func mapToMessageKind() -> MessageKind? {
@@ -61,6 +64,9 @@ extension ChatMessage {
             } else {
                 return nil
             }
+        case let buttonsMessage as ButtonsMessage:
+            let models = buttonsMessage.models
+            return .custom(models)
         default:
             assertionFailure()
             return .text("")

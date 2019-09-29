@@ -175,9 +175,9 @@ final class ChatViewController: MessagesViewController {
 
     private func fillMessages() {
         let buttonModels = [
-            ActionButtonModel(displayTitle: "Кнопка1", action: "action1"),
-            ActionButtonModel(displayTitle: "Кнопка2", action: "action2"),
-            ActionButtonModel(displayTitle: "Кнопка3", action: "action3")
+            ActionButtonModel(displayTitle: "Btn", action: "action1"),
+            ActionButtonModel(displayTitle: "Кнопка с длинным названием 12345", action: "action2"),
+            ActionButtonModel(displayTitle: "Кнопка", action: "action3")
         ]
         let yetAnotherMessage = Message(sender: self.bot, kind: .custom(buttonModels))
 
@@ -581,5 +581,9 @@ extension ChatViewController: MessageCellDelegate {
             audioController.stopAnyOngoingPlaying()
             audioController.playSound(for: message, in: cell)
         }
+    }
+
+    func didTapActionButton(with action: String) {
+        self.sendMessage(Message(sender: self.user, kind: .text(action)), needInsert: true)
     }
 }

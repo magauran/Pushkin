@@ -41,7 +41,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MessageKit:
-    :commit: 0fae958e160ff914b40e6cded52f07f2a0403d08
+    :commit: 55ad37166002f4dd3a38ab642aeb1ec316921039
     :git: https://github.com/magauran/MessageKit
 
 SPEC CHECKSUMS:

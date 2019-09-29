@@ -13,6 +13,7 @@ struct ChatResponse: Decodable {
     let coords: String?
     let response: String?
     let audio_url: String?
+    let buttons: [String]?
 }
 
 extension ChatResponse {
@@ -36,6 +37,11 @@ extension ChatResponse {
 
         if let audioURL = audio_url {
             result.append(SoundMessage(audioURL: audioURL))
+        }
+
+        if let buttons = buttons, !buttons.isEmpty {
+            let actionButtonModels = buttons.map { ActionButtonModel(displayTitle: $0, action: $0) }
+            result.append(ButtonsMessage(models: actionButtonModels))
         }
 
         return result

@@ -140,7 +140,6 @@
 		88B6065B23403929004E3851 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				88D4EEAD233FBE7B0066DCF8 /* ActionButtonModel.swift */,
 				88D4EEAF233FC0150066DCF8 /* ActionButtonsMessageCell.swift */,
 				88D4EEB1233FC6340066DCF8 /* CustomMessagesFlowLayout.swift */,
 				889FD3BB233EAAD900227A7C /* SpeechView.swift */,
@@ -171,13 +170,14 @@
 		88B6066423403AD1004E3851 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				88B6066223403ACD004E3851 /* Message.swift */,
-				88B6066023403A83004E3851 /* Sender.swift */,
+				88D4EEAD233FBE7B0066DCF8 /* ActionButtonModel.swift */,
 				88B6066523403B0B004E3851 /* Audio.swift */,
-				88B6066723403B25004E3851 /* Media.swift */,
-				88B6066923403B4F004E3851 /* Location.swift */,
 				88B6066B23403BA1004E3851 /* ChatMessage.swift */,
 				88B6066D23403BFD004E3851 /* ChatResponse.swift */,
+				88B6066923403B4F004E3851 /* Location.swift */,
+				88B6066723403B25004E3851 /* Media.swift */,
+				88B6066223403ACD004E3851 /* Message.swift */,
+				88B6066023403A83004E3851 /* Sender.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
