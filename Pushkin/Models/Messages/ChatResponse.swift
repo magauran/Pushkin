@@ -21,10 +21,10 @@ extension ChatResponse {
         var result: [ChatMessage] = []
 
         if let text = response {
-            result.append(PlainTextMessage(text: text, speechText: audio_url == nil ? text : nil))
+            result.append(PlainTextMessage(text: text, speechText: (audio_url == nil || (audio_url?.isEmpty == true)) ? text : nil))
         }
 
-        if let imageURL = img_url {
+        if let imageURL = img_url, !imageURL.isEmpty {
             result.append(ImageMessage(imageURL: imageURL))
         }
 
@@ -35,7 +35,7 @@ extension ChatResponse {
             }
         }
 
-        if let audioURL = audio_url {
+        if let audioURL = audio_url, !audioURL.isEmpty {
             result.append(SoundMessage(audioURL: audioURL))
         }
 
