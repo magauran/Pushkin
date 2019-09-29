@@ -489,7 +489,8 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         messageInputBar.inputTextView.text = String()
         messageInputBar.invalidatePlugins()
 
-        let message = Message(sender: self.user, kind: .text(text))
+        let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let message = Message(sender: self.user, kind: .text(trimmedText))
         self.sendMessage(message)
         self.messagesCollectionView.scrollToBottom(animated: true)
     }
