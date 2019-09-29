@@ -127,12 +127,8 @@ final class ChatViewController: MessagesViewController {
         self.additionalBottomInset = 20
         self.messagesCollectionView.showsVerticalScrollIndicator = false
 
-        self.messageInputBar.sendButton.configure {
-            $0.title = nil
-            $0.image = UIImage(named: "send")
-        }
-
         self.setupStatusBar()
+        self.setupMessageInputBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -202,6 +198,14 @@ final class ChatViewController: MessagesViewController {
         let statusBarView = UIView(frame: statusBarFrame)
         self.view.addSubview(statusBarView)
         statusBarView.backgroundColor = .white
+    }
+
+    private func setupMessageInputBar() {
+        self.messageInputBar.sendButton.configure {
+            $0.title = nil
+            $0.image = UIImage(named: "send")
+        }
+        self.messageInputBar.inputTextView.isImagePasteEnabled = false
     }
 
     private func configureMessageInputBar() {
