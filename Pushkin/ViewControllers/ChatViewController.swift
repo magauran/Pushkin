@@ -107,7 +107,6 @@ final class ChatViewController: MessagesViewController {
 
         super.viewDidLoad()
 
-
         self.fillMessages()
 
         self.messagesCollectionView.messagesDataSource = self
@@ -123,6 +122,7 @@ final class ChatViewController: MessagesViewController {
         layout.setMessageIncomingMessageTopLabelAlignment(
             LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 0))
         )
+
         self.messagesCollectionView.contentInset.top = 20
         self.additionalBottomInset = 20
         self.messagesCollectionView.showsVerticalScrollIndicator = false
@@ -131,6 +131,8 @@ final class ChatViewController: MessagesViewController {
             $0.title = nil
             $0.image = UIImage(named: "send")
         }
+
+        self.setupStatusBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -193,6 +195,13 @@ final class ChatViewController: MessagesViewController {
             Message(sender: self.system, kind: .audio(Audio(url: URL(string: "https://media.izi.travel/fae0d384-5475-4134-a0bf-eab6bbf42a1b/8456eea1-fbbd-4f1e-a1bc-80862ea23dd2.m4a")!))),
             yetAnotherMessage, yetAnotherMessage
         ]
+    }
+
+    private func setupStatusBar() {
+        let statusBarFrame = UIApplication.shared.statusBarFrame
+        let statusBarView = UIView(frame: statusBarFrame)
+        self.view.addSubview(statusBarView)
+        statusBarView.backgroundColor = .white
     }
 
     private func configureMessageInputBar() {
