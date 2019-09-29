@@ -49,7 +49,11 @@ extension ChatMessage {
     func mapToMessageKind() -> MessageKind? {
         switch self {
         case let plainTextMessage as PlainTextMessage:
-            return .text(plainTextMessage.text)
+            let trimmingText = plainTextMessage.text
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .trimmingCharacters(in: .punctuationCharacters)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            return .text(trimmingText)
         case let coordsMessage as CoordsMessage:
             return .location(Location(location: CLLocation(latitude: coordsMessage.latitude, longitude: coordsMessage.longitude)))
         case let audioMessage as SoundMessage:
