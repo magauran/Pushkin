@@ -13,5 +13,6 @@ target 'Pushkin' do
   pod 'Repeat'
   pod 'SwiftSiriWaveformView'
   pod 'QRCodeReader.swift', '~> 10.1.0'
+  pod 'SwiftRichString', '~> 3.0.2'
 
 end

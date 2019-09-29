@@ -16,6 +16,7 @@
 		889FD3BA233E63E000227A7C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3B9233E63E000227A7C /* ChatViewController.swift */; };
 		889FD3BC233EAAD900227A7C /* SpeechView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3BB233EAAD900227A7C /* SpeechView.swift */; };
 		889FD3BE233EB14A00227A7C /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3BD233EB14A00227A7C /* ChatService.swift */; };
+		88B6065823401E1D004E3851 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6065723401E1D004E3851 /* PlaceInfoViewController.swift */; };
 		88D4EEA8233F53AA0066DCF8 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */; };
 		88D4EEAA233F916A0066DCF8 /* Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEA9233F916A0066DCF8 /* Speaker.swift */; };
 		88D4EEAC233FB5330066DCF8 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */; };
@@ -39,6 +40,7 @@
 		889FD3B9233E63E000227A7C /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		889FD3BB233EAAD900227A7C /* SpeechView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechView.swift; sourceTree = "<group>"; };
 		889FD3BD233EB14A00227A7C /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		88B6065723401E1D004E3851 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
 		88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		88D4EEA9233F916A0066DCF8 /* Speaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speaker.swift; sourceTree = "<group>"; };
 		88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				889FD3A9233E5FA800227A7C /* ViewController.swift */,
 				889FD3B9233E63E000227A7C /* ChatViewController.swift */,
 				88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */,
+				88B6065723401E1D004E3851 /* PlaceInfoViewController.swift */,
 				88D4EEAF233FC0150066DCF8 /* ActionButtonsMessageCell.swift */,
 				88D4EEB5233FCD2C0066DCF8 /* BasicAudioController.swift */,
 				88D4EEB1233FC6340066DCF8 /* CustomMessagesFlowLayout.swift */,
@@ -248,6 +251,7 @@
 				88D4EEAE233FBE7B0066DCF8 /* ActionButtonModel.swift in Sources */,
 				88D4EEAC233FB5330066DCF8 /* CalendarManager.swift in Sources */,
 				889FD3BA233E63E000227A7C /* ChatViewController.swift in Sources */,
+				88B6065823401E1D004E3851 /* PlaceInfoViewController.swift in Sources */,
 				88D4EEA8233F53AA0066DCF8 /* SpeechRecognizer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

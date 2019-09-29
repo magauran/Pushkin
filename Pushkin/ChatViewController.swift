@@ -302,7 +302,13 @@ final class ChatViewController: MessagesViewController {
 
     private func configureMessageInputBarForPhoto() {
         self.readerVC.modalPresentationStyle = .formSheet
-        self.present(readerVC, animated: true, completion: nil)
+        self.readerVC.completionBlock = { [weak self] result in
+            if result?.value == "https://youtu.be/dQw4w9WgXcQ" {
+                let placeInfoViewController = PlaceInfoViewController()
+                self?.readerVC.present(placeInfoViewController, animated: true, completion: nil)
+            }
+        }
+        self.present(self.readerVC, animated: true, completion: nil)
     }
 
     private func sendMessage(_ message: Message, needInsert: Bool = true) {
