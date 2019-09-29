@@ -310,7 +310,7 @@ final class ChatViewController: MessagesViewController {
                 speakText = nil
             }
 
-            DispatchQueue.main.async {
+            OperationQueue.main.addOperation {
                 self.setTypingIndicatorViewHidden(
                     true,
                     animated: true,
