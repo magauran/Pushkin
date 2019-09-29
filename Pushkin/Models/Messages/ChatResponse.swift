@@ -21,7 +21,7 @@ extension ChatResponse {
         var result: [ChatMessage] = []
 
         if let text = response {
-            result.append(PlainTextMessage(text: text))
+            result.append(PlainTextMessage(text: text, speechText: audio_url == nil ? text : nil))
         }
 
         if let imageURL = img_url {

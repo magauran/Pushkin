@@ -22,10 +22,7 @@ extension ChatMessage {
 
 struct PlainTextMessage: ChatMessage {
     let text: String
-
-    var speechText: String? {
-        return self.text
-    }
+    let speechText: String?
 }
 
 struct ImageMessage: ChatMessage {
