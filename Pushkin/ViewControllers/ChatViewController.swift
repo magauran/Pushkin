@@ -16,6 +16,7 @@ import Repeat
 import Keyboardy
 import AVFoundation
 import QRCodeReader
+import SPStorkController
 
 enum MessangerState {
     case menu
@@ -257,10 +258,18 @@ final class ChatViewController: MessagesViewController {
         self.readerVC.completionBlock = { [weak self] result in
             if result?.value == "https://youtu.be/dQw4w9WgXcQ" {
                 let placeInfoViewController = PlaceInfoViewController()
-                self?.readerVC.present(placeInfoViewController, animated: true, completion: nil)
+                if #available(iOS 13.0, *) {
+                    self?.readerVC.present(placeInfoViewController, animated: true, completion: nil)
+                } else {
+                    self?.readerVC.presentAsStork(placeInfoViewController, height: nil, showIndicator: false, showCloseButton: true, complection: nil)
+                }
             }
         }
-        self.present(self.readerVC, animated: true, completion: nil)
+        if #available(iOS 13.0, *) {
+            self.present(self.readerVC, animated: true, completion: nil)
+        } else {
+            self.presentAsStork(self.readerVC, height: nil, showIndicator: false, showCloseButton: true, complection: nil)
+        }
     }
 
     private func sendMessage(_ message: Message, needInsert: Bool = true) {

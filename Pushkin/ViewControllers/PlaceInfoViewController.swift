@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftRichString
+import SPStorkController
 
 final class PlaceInfoViewController: UIViewController {
     private var pictureContainer = UIStackView()
@@ -38,6 +39,7 @@ final class PlaceInfoViewController: UIViewController {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        scrollView.delegate = self
 
         let containerView = UIView()
         scrollView.addSubview(containerView)
@@ -119,5 +121,11 @@ final class PlaceInfoViewController: UIViewController {
         mapImageView.snp.makeConstraints { make in
             make.height.equalTo(300)
         }
+    }
+}
+
+extension PlaceInfoViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        SPStorkController.scrollViewDidScroll(scrollView)
     }
 }
