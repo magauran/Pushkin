@@ -438,6 +438,26 @@ extension ChatViewController: MessagesDisplayDelegate {
     func configureAudioCell(_ cell: AudioMessageCell, message: MessageType) {
         audioController.configureAudioCell(cell, message: message)
     }
+
+    func animationBlockForLocation(
+        message: MessageType,
+        at indexPath: IndexPath,
+        in messagesCollectionView: MessagesCollectionView
+    ) -> ((UIImageView) -> Void)? {
+        return { view in
+            view.layer.transform = CATransform3DMakeScale(2, 2, 2)
+            UIView.animate(
+                withDuration: 0.6,
+                delay: 0,
+                usingSpringWithDamping: 0.9,
+                initialSpringVelocity: 0,
+                options: [],
+                animations: {
+                    view.layer.transform = CATransform3DIdentity
+                }, completion: nil
+            )
+        }
+    }
 }
 
 extension ChatViewController: InputBarAccessoryViewDelegate {

@@ -12,5 +12,5 @@ import CoreLocation
 
 struct Location: LocationItem {
     let location: CLLocation
-    let size = CGSize(width: 270, height: 100)
+    let size = CGSize(width: 270, height: 150)
 }
