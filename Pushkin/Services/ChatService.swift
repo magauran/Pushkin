@@ -36,7 +36,7 @@ final class MockChatService: ChatService {
 }
 
 final class ChatServiceImpl: NSObject, URLSessionDelegate, ChatService {
-    static private let urlString = "http://e70028c9.ngrok.io"
+    static private let urlString = "http://a5b7fd07.ngrok.io"
 
     lazy private var session: URLSession = {
         let sessionConfiguration = URLSessionConfiguration.default

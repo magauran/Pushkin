@@ -24,7 +24,7 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>e70028c9.ngrok.io</key>
+			<key>a5b7fd07.ngrok.io</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -45,6 +45,8 @@
 	<string>Ваш микрофон будет использован для распознавания голосовых команд.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Распознавание речи будет использовано для распознавания голосовых команд.</string>
+    <key>NSContactsUsageDescription</key>
+    <string>Доступ к контактам мне не нужен, но Apple требует.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
