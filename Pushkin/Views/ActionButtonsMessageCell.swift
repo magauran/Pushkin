@@ -62,4 +62,11 @@ final class ActionButtonsMessageCell: UICollectionViewCell {
             make.centerY.equalToSuperview()
         }
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        self.stackView?.removeFromSuperview()
+        self.stackView = nil
+    }
 }
