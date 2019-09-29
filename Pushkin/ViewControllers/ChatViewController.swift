@@ -27,7 +27,7 @@ enum MessangerState {
 
 final class ChatViewController: MessagesViewController {
     private let chatService: ChatService = ChatServiceImpl()
-    private let speechRecognizer = SpeechRecognizer()
+    private lazy var speechRecognizer = SpeechRecognizer()
     private let speaker = Speaker()
     private let calendarManager = CalendarManager()
     private lazy var audioController = BasicAudioController(messageCollectionView: messagesCollectionView)
@@ -74,7 +74,7 @@ final class ChatViewController: MessagesViewController {
         stackView.distribution = .equalCentering
         stackView.alignment = .fill
         stackView.snp.makeConstraints { make in
-            make.height.equalTo(38)
+            make.height.equalTo(28)
         }
 
         return stackView
@@ -171,25 +171,14 @@ final class ChatViewController: MessagesViewController {
 
     private func fillMessages() {
         let buttonModels = [
-            ActionButtonModel(displayTitle: "Btn", action: "action1"),
-            ActionButtonModel(displayTitle: "Кнопка с длинным названием 12345", action: "action2"),
-            ActionButtonModel(displayTitle: "Кнопка", action: "action3")
+            ActionButtonModel(displayTitle: "Расписание лекций", action: "Где узнать расписание лекций?"),
+            ActionButtonModel(displayTitle: "Что запрещено проносить в музей?", action: "Что запрещено проносить в музей?")
         ]
         let yetAnotherMessage = Message(sender: self.bot, kind: .custom(buttonModels))
 
         self.messages = [
-            Message(sender: self.user, kind: .text("Привет")),
-            Message(sender: self.bot, kind: .text("Как дела?")),
-            Message(sender: self.user, kind: .text("Норм")),
-            Message(sender: self.bot, kind: .photo(Media(url: URL(string: "https://bmem.ru/wp-content/uploads/2019/04/proklyatyy-kot.jpg")!))),
-            Message(sender: self.user, kind: .text("Тоже")),
-            Message(sender: self.system, kind: .text("Ты где?")),
-            Message(sender: self.bot, kind: .text("Санкт-Петербург, Исакиевская площадь, д. 1")),
-            Message(sender: self.bot, kind: .location(Location(location: CLLocation(latitude: 59.9338, longitude: 30.3030)))),
-            Message(sender: self.user, kind: .text("Я подъеду завтра в 10 утра")),
-            Message(sender: self.bot, kind: .text("На всякий случай вот мой номер: 88005553535")),
-            Message(sender: self.system, kind: .audio(Audio(url: URL(string: "https://media.izi.travel/fae0d384-5475-4134-a0bf-eab6bbf42a1b/8456eea1-fbbd-4f1e-a1bc-80862ea23dd2.m4a")!))),
-            yetAnotherMessage, yetAnotherMessage
+            Message(sender: self.bot, kind: .text("Привет, я виртуальный помощник Арина. Готова ответить на любые ваши вопросы про Пушкинский музей.")),
+            yetAnotherMessage
         ]
     }
 
@@ -221,7 +210,7 @@ final class ChatViewController: MessagesViewController {
 
     private func configureMessageInputBarForKeyboard() {
         self.messageInputBar.setMiddleContentView(self.messageInputBar.inputTextView, animated: true)
-        self.messageInputBar.setRightStackViewWidthConstant(to: 35, animated: true)
+        self.messageInputBar.setRightStackViewWidthConstant(to: 30, animated: true)
         self.messageInputBar.setStackViewItems([], forStack: .bottom, animated: true)
         self.messageInputBar.inputTextView.becomeFirstResponder()
         self.messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 8)
@@ -512,9 +501,10 @@ extension ChatViewController: KeyboardStateDelegate {
 
             guard self.state == .keyboard, self.messageInputBar.leftStackViewWidthConstant == 0 else { return }
             let hideKeyboardButton = InputBarButtonItem(type: .system)
+            hideKeyboardButton.imageEdgeInsets = UIEdgeInsets(top: -2, left: 0, bottom: 4, right: 0)
             hideKeyboardButton.setImage(UIImage(named: "hide_keyboard"), for: .normal)
             hideKeyboardButton.snp.makeConstraints { make in
-                make.size.equalTo(CGSize(width: 35, height: 35))
+                make.size.equalTo(CGSize(width: 30, height: 30))
             }
             hideKeyboardButton.onTap { [weak self] in
                 self?.messageInputBar.inputTextView.resignFirstResponder()

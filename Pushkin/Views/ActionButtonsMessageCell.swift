@@ -31,7 +31,10 @@ final class ActionButtonsMessageCell: UICollectionViewCell {
             button.layer.masksToBounds = true
             button.layer.backgroundColor = UIColor(red: 128.0 / 255.0, green: 164.0 / 255.0, blue: 194.0 / 255.0, alpha: 0.6).cgColor
 
-            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+            button.contentVerticalAlignment = .center
+            button.contentHorizontalAlignment = .center
+            button.titleLabel?.baselineAdjustment = .alignCenters
 
             let wrapper = UIView()
             wrapper.addSubview(button)
@@ -57,8 +60,8 @@ final class ActionButtonsMessageCell: UICollectionViewCell {
 
         self.addSubview(stack)
         stack.snp.makeConstraints { make in
-            make.left.equalTo(self.snp.left).offset(48)
-            make.right.equalTo(self.snp.right).offset(-48)
+            make.left.equalTo(self.snp.left).offset(38)
+            make.right.equalTo(self.snp.right).offset(-38)
             make.centerY.equalToSuperview()
         }
     }
