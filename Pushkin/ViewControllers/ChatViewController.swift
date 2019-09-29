@@ -176,8 +176,11 @@ final class ChatViewController: MessagesViewController {
         ]
         let yetAnotherMessage = Message(sender: self.bot, kind: .custom(buttonModels))
 
+
+
         self.messages = [
             Message(sender: self.bot, kind: .text("Привет, я виртуальный помощник Арина. Готова ответить на любые ваши вопросы про Пушкинский музей.")),
+            Message(sender: self.bot, kind: .photo(Media(url: URL(string: "https://vk.com/sticker/1-4651-256")))),
             yetAnotherMessage
         ]
     }
@@ -470,6 +473,18 @@ extension ChatViewController: MessagesDisplayDelegate {
 
     func audioTintColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         return .appTintColor
+    }
+
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        switch message.kind {
+        case .photo:
+            return .clear
+        case .emoji:
+            return .clear
+        default:
+            guard let dataSource = messagesCollectionView.messagesDataSource else { return .white }
+            return dataSource.isFromCurrentSender(message: message) ? .outgoingGreen : .incomingGray
+        }
     }
 }
 

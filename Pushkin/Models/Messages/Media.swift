@@ -15,8 +15,13 @@ struct Media: MediaItem {
     let placeholderImage: UIImage
     let size: CGSize
 
-    init(url: URL) {
-        let data = (try? Data(contentsOf: url)) ?? Data()
+    init(url: URL?) {
+        let data: Data
+        if let url = url {
+            data = (try? Data(contentsOf: url)) ?? Data()
+        } else {
+            data = Data()
+        }
         self.image = UIImage(data: data)
         self.placeholderImage = UIImage(named: "picture") ?? UIImage()
         self.size = CGSize(width: 200, height: 200)
