@@ -24,7 +24,7 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>a5b7fd07.ngrok.io</key>
+			<key>a67bbea5.ngrok.io</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
