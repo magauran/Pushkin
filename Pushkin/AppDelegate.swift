@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow()
         self.window?.rootViewController = ChatViewController()
         self.window?.makeKeyAndVisible()
-        UIWindow.appearance().tintColor = UIColor(red: 110.0 / 255, green: 111.0 / 255, blue: 211.0 / 255, alpha: 1)
+        UIWindow.appearance().tintColor = .appTintColor
 
         return true
     }

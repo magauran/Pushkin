@@ -22,6 +22,7 @@
 		88B6066A23403B4F004E3851 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066923403B4F004E3851 /* Location.swift */; };
 		88B6066C23403BA1004E3851 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066B23403BA1004E3851 /* ChatMessage.swift */; };
 		88B6066E23403BFD004E3851 /* ChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066D23403BFD004E3851 /* ChatResponse.swift */; };
+		88B6067023405187004E3851 /* UIColor++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066F23405187004E3851 /* UIColor++.swift */; };
 		88D4EEA8233F53AA0066DCF8 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */; };
 		88D4EEAA233F916A0066DCF8 /* Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEA9233F916A0066DCF8 /* Speaker.swift */; };
 		88D4EEAC233FB5330066DCF8 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */; };
@@ -51,6 +52,7 @@
 		88B6066923403B4F004E3851 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		88B6066B23403BA1004E3851 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		88B6066D23403BFD004E3851 /* ChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatResponse.swift; sourceTree = "<group>"; };
+		88B6066F23405187004E3851 /* UIColor++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++.swift"; sourceTree = "<group>"; };
 		88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		88D4EEA9233F916A0066DCF8 /* Speaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speaker.swift; sourceTree = "<group>"; };
 		88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				88D4EEB3233FC86B0066DCF8 /* UIImage++.swift */,
+				88B6066F23405187004E3851 /* UIColor++.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				889FD3BA233E63E000227A7C /* ChatViewController.swift in Sources */,
 				88B6066323403ACD004E3851 /* Message.swift in Sources */,
 				88B6066C23403BA1004E3851 /* ChatMessage.swift in Sources */,
+				88B6067023405187004E3851 /* UIColor++.swift in Sources */,
 				88B6066823403B25004E3851 /* Media.swift in Sources */,
 				88B6065823401E1D004E3851 /* PlaceInfoViewController.swift in Sources */,
 				88D4EEA8233F53AA0066DCF8 /* SpeechRecognizer.swift in Sources */,

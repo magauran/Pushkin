@@ -126,6 +126,11 @@ final class ChatViewController: MessagesViewController {
         self.messagesCollectionView.contentInset.top = 20
         self.additionalBottomInset = 20
         self.messagesCollectionView.showsVerticalScrollIndicator = false
+
+        self.messageInputBar.sendButton.configure {
+            $0.title = nil
+            $0.image = UIImage(named: "send")
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -203,7 +208,7 @@ final class ChatViewController: MessagesViewController {
 
     private func configureMessageInputBarForKeyboard() {
         self.messageInputBar.setMiddleContentView(self.messageInputBar.inputTextView, animated: true)
-        self.messageInputBar.setRightStackViewWidthConstant(to: 52, animated: true)
+        self.messageInputBar.setRightStackViewWidthConstant(to: 35, animated: true)
         self.messageInputBar.setStackViewItems([], forStack: .bottom, animated: true)
         self.messageInputBar.inputTextView.becomeFirstResponder()
         self.messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 8)
@@ -459,6 +464,10 @@ extension ChatViewController: MessagesDisplayDelegate {
                 }, completion: nil
             )
         }
+    }
+
+    func audioTintColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return .appTintColor
     }
 }
 
