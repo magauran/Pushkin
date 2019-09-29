@@ -22,12 +22,11 @@ final class ActionButtonsMessageCell: UICollectionViewCell {
             button.snp.makeConstraints { make in
                 make.height.equalTo(40)
             }
-            let colorImage = UIImage.imageWith(color: UIColor(red: 128.0 / 255.0, green: 164.0 / 255.0, blue: 194.0 / 255.0, alpha: 0.6))
-            button.setBackgroundImage(colorImage, for: .normal)
             button.setTitleColor(.white, for: .normal)
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
             button.layer.cornerRadius = 20
             button.layer.masksToBounds = true
+            button.layer.backgroundColor = UIColor(red: 128.0 / 255.0, green: 164.0 / 255.0, blue: 194.0 / 255.0, alpha: 0.6).cgColor
 
             return button
         }

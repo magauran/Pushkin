@@ -17,66 +17,11 @@ import Keyboardy
 import AVFoundation
 import QRCodeReader
 
-struct Sender: SenderType {
-    let senderId = UUID().uuidString
-    let displayName: String
-
-    init(displayName: String) {
-        self.displayName = displayName
-    }
-}
-
-struct Message: MessageType {
-    let sender: SenderType
-    let messageId: String
-    let sentDate: Date
-    var kind: MessageKind
-
-    init(sender: SenderType, kind: MessageKind) {
-        self.sender = sender
-        self.messageId = UUID().uuidString
-        self.sentDate = Date()
-        self.kind = kind
-    }
-}
-
-struct Audio: AudioItem {
-    let url: URL
-    let size: CGSize
-    let duration: Float
-
-    init(url: URL) {
-        self.url = url
-        self.size = CGSize(width: 200, height: 40)
-        let audioAsset = AVURLAsset(url: url)
-        self.duration = Float(CMTimeGetSeconds(audioAsset.duration))
-    }
-}
-
-struct Media: MediaItem {
-    let url: URL? = nil
-    let image: UIImage?
-    let placeholderImage: UIImage
-    let size: CGSize
-
-    init(url: URL) {
-        let data = (try? Data(contentsOf: url)) ?? Data()
-        self.image = UIImage(data: data)
-        self.placeholderImage = UIImage(named: "picture") ?? UIImage()
-        self.size = CGSize(width: 200, height: 200)
-    }
-}
-
 enum MessangerState {
     case menu
     case speech
     case keyboard
     case photo
-}
-
-struct LocationMessage: LocationItem {
-    let location: CLLocation
-    let size = CGSize(width: 270, height: 100)
 }
 
 final class ChatViewController: MessagesViewController {
@@ -243,7 +188,7 @@ final class ChatViewController: MessagesViewController {
             Message(sender: self.user, kind: .text("Тоже")),
             Message(sender: self.system, kind: .text("Ты где?")),
             Message(sender: self.bot, kind: .text("Санкт-Петербург, Исакиевская площадь, д. 1")),
-            Message(sender: self.bot, kind: .location(LocationMessage(location: CLLocation(latitude: 59.9338, longitude: 30.3030)))),
+            Message(sender: self.bot, kind: .location(Location(location: CLLocation(latitude: 59.9338, longitude: 30.3030)))),
             Message(sender: self.user, kind: .text("Я подъеду завтра в 10 утра")),
             Message(sender: self.bot, kind: .text("На всякий случай вот мой номер: 88005553535")),
             Message(sender: self.system, kind: .audio(Audio(url: URL(string: "https://media.izi.travel/fae0d384-5475-4134-a0bf-eab6bbf42a1b/8456eea1-fbbd-4f1e-a1bc-80862ea23dd2.m4a")!))),
@@ -386,7 +331,6 @@ final class ChatViewController: MessagesViewController {
         self.messagesCollectionView.performBatchUpdates({
             let sections = newMessages.enumerated().map { self.messages.count - ($0.offset + 1) }
             let indexSet = IndexSet(sections)
-//            messagesCollectionView.insertSections([self.messages.count - 1])
             messagesCollectionView.insertSections(indexSet)
             if self.messages.count >= 2 {
                 self.messagesCollectionView.reloadSections([self.messages.count - newMessages.count - 1])
@@ -492,7 +436,7 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
 
     func configureAudioCell(_ cell: AudioMessageCell, message: MessageType) {
-        audioController.configureAudioCell(cell, message: message) // this is needed especily when the cell is reconfigure while is playing sound
+        audioController.configureAudioCell(cell, message: message)
     }
 }
 
@@ -597,38 +541,5 @@ extension ChatViewController: MessageCellDelegate {
             audioController.stopAnyOngoingPlaying()
             audioController.playSound(for: message, in: cell)
         }
-    }
-}
-
-
-extension ChatMessage {
-    func mapToMessageKind() -> MessageKind? {
-        switch self {
-        case let plainTextMessage as PlainTextMessage:
-            return .text(plainTextMessage.text)
-        case let coordsMessage as CoordsMessage:
-            return .location(LocationMessage(location: CLLocation(latitude: coordsMessage.latitude, longitude: coordsMessage.longitude)))
-        case let audioMessage as SoundMessage:
-            if let url = URL(string: audioMessage.audioURL) {
-                return .audio(Audio(url: url))
-            } else {
-                return nil
-            }
-        case let imageMessage as ImageMessage:
-            if let url = URL(string: imageMessage.imageURL) {
-                return .photo(Media(url: url))
-            } else {
-                return nil
-            }
-        default:
-            assertionFailure()
-            return .text("")
-        }
-    }
-}
-
-extension Array where Element == ChatMessage {
-    func mapToMessageKinds() -> [MessageKind] {
-        return self.compactMap { $0.mapToMessageKind() }
     }
 }

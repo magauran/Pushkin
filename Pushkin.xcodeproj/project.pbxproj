@@ -9,14 +9,19 @@
 /* Begin PBXBuildFile section */
 		7862C38303EE6F84F5E4752B /* Pods_Pushkin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 533697D3460B108C73D55667 /* Pods_Pushkin.framework */; };
 		889FD3A6233E5FA800227A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3A5233E5FA800227A7C /* AppDelegate.swift */; };
-		889FD3AA233E5FA800227A7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3A9233E5FA800227A7C /* ViewController.swift */; };
-		889FD3AD233E5FA800227A7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 889FD3AB233E5FA800227A7C /* Main.storyboard */; };
 		889FD3AF233E5FA900227A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 889FD3AE233E5FA900227A7C /* Assets.xcassets */; };
 		889FD3B2233E5FA900227A7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 889FD3B0233E5FA900227A7C /* LaunchScreen.storyboard */; };
 		889FD3BA233E63E000227A7C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3B9233E63E000227A7C /* ChatViewController.swift */; };
 		889FD3BC233EAAD900227A7C /* SpeechView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3BB233EAAD900227A7C /* SpeechView.swift */; };
 		889FD3BE233EB14A00227A7C /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FD3BD233EB14A00227A7C /* ChatService.swift */; };
 		88B6065823401E1D004E3851 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6065723401E1D004E3851 /* PlaceInfoViewController.swift */; };
+		88B6066123403A83004E3851 /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066023403A83004E3851 /* Sender.swift */; };
+		88B6066323403ACD004E3851 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066223403ACD004E3851 /* Message.swift */; };
+		88B6066623403B0B004E3851 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066523403B0B004E3851 /* Audio.swift */; };
+		88B6066823403B25004E3851 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066723403B25004E3851 /* Media.swift */; };
+		88B6066A23403B4F004E3851 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066923403B4F004E3851 /* Location.swift */; };
+		88B6066C23403BA1004E3851 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066B23403BA1004E3851 /* ChatMessage.swift */; };
+		88B6066E23403BFD004E3851 /* ChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6066D23403BFD004E3851 /* ChatResponse.swift */; };
 		88D4EEA8233F53AA0066DCF8 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */; };
 		88D4EEAA233F916A0066DCF8 /* Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEA9233F916A0066DCF8 /* Speaker.swift */; };
 		88D4EEAC233FB5330066DCF8 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */; };
@@ -32,8 +37,6 @@
 		5E8A45599FBBC8D145CFC547 /* Pods-Pushkin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pushkin.release.xcconfig"; path = "Target Support Files/Pods-Pushkin/Pods-Pushkin.release.xcconfig"; sourceTree = "<group>"; };
 		889FD3A2233E5FA800227A7C /* Pushkin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pushkin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		889FD3A5233E5FA800227A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		889FD3A9233E5FA800227A7C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		889FD3AC233E5FA800227A7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		889FD3AE233E5FA900227A7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		889FD3B1233E5FA900227A7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		889FD3B3233E5FA900227A7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -41,6 +44,13 @@
 		889FD3BB233EAAD900227A7C /* SpeechView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechView.swift; sourceTree = "<group>"; };
 		889FD3BD233EB14A00227A7C /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		88B6065723401E1D004E3851 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
+		88B6066023403A83004E3851 /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
+		88B6066223403ACD004E3851 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		88B6066523403B0B004E3851 /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		88B6066723403B25004E3851 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		88B6066923403B4F004E3851 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		88B6066B23403BA1004E3851 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		88B6066D23403BFD004E3851 /* ChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatResponse.swift; sourceTree = "<group>"; };
 		88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		88D4EEA9233F916A0066DCF8 /* Speaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speaker.swift; sourceTree = "<group>"; };
 		88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
@@ -95,25 +105,78 @@
 			isa = PBXGroup;
 			children = (
 				889FD3A5233E5FA800227A7C /* AppDelegate.swift */,
-				889FD3A9233E5FA800227A7C /* ViewController.swift */,
-				889FD3B9233E63E000227A7C /* ChatViewController.swift */,
-				88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */,
-				88B6065723401E1D004E3851 /* PlaceInfoViewController.swift */,
-				88D4EEAF233FC0150066DCF8 /* ActionButtonsMessageCell.swift */,
-				88D4EEB5233FCD2C0066DCF8 /* BasicAudioController.swift */,
-				88D4EEB1233FC6340066DCF8 /* CustomMessagesFlowLayout.swift */,
-				889FD3BD233EB14A00227A7C /* ChatService.swift */,
-				88D4EEB3233FC86B0066DCF8 /* UIImage++.swift */,
-				88D4EEAD233FBE7B0066DCF8 /* ActionButtonModel.swift */,
-				889FD3BB233EAAD900227A7C /* SpeechView.swift */,
-				88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */,
-				88D4EEA9233F916A0066DCF8 /* Speaker.swift */,
-				889FD3AB233E5FA800227A7C /* Main.storyboard */,
+				88B6065F23403A75004E3851 /* Models */,
+				88B60659234038BB004E3851 /* ViewControllers */,
+				88B6065C23403946004E3851 /* Services */,
+				88B6065B23403929004E3851 /* Views */,
+				88B6065A2340391D004E3851 /* Extensions */,
 				889FD3AE233E5FA900227A7C /* Assets.xcassets */,
 				889FD3B0233E5FA900227A7C /* LaunchScreen.storyboard */,
 				889FD3B3233E5FA900227A7C /* Info.plist */,
 			);
 			path = Pushkin;
+			sourceTree = "<group>";
+		};
+		88B60659234038BB004E3851 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				889FD3B9233E63E000227A7C /* ChatViewController.swift */,
+				88B6065723401E1D004E3851 /* PlaceInfoViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		88B6065A2340391D004E3851 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				88D4EEB3233FC86B0066DCF8 /* UIImage++.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		88B6065B23403929004E3851 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				88D4EEAD233FBE7B0066DCF8 /* ActionButtonModel.swift */,
+				88D4EEAF233FC0150066DCF8 /* ActionButtonsMessageCell.swift */,
+				88D4EEB1233FC6340066DCF8 /* CustomMessagesFlowLayout.swift */,
+				889FD3BB233EAAD900227A7C /* SpeechView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		88B6065C23403946004E3851 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				889FD3BD233EB14A00227A7C /* ChatService.swift */,
+				88D4EEAB233FB5330066DCF8 /* CalendarManager.swift */,
+				88D4EEB5233FCD2C0066DCF8 /* BasicAudioController.swift */,
+				88D4EEA9233F916A0066DCF8 /* Speaker.swift */,
+				88D4EEA7233F53AA0066DCF8 /* SpeechRecognizer.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		88B6065F23403A75004E3851 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				88B6066423403AD1004E3851 /* Messages */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		88B6066423403AD1004E3851 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				88B6066223403ACD004E3851 /* Message.swift */,
+				88B6066023403A83004E3851 /* Sender.swift */,
+				88B6066523403B0B004E3851 /* Audio.swift */,
+				88B6066723403B25004E3851 /* Media.swift */,
+				88B6066923403B4F004E3851 /* Location.swift */,
+				88B6066B23403BA1004E3851 /* ChatMessage.swift */,
+				88B6066D23403BFD004E3851 /* ChatResponse.swift */,
+			);
+			path = Messages;
 			sourceTree = "<group>";
 		};
 		93957260432FA2EA530F3858 /* Frameworks */ = {
@@ -186,7 +249,6 @@
 			files = (
 				889FD3B2233E5FA900227A7C /* LaunchScreen.storyboard in Resources */,
 				889FD3AF233E5FA900227A7C /* Assets.xcassets in Resources */,
-				889FD3AD233E5FA800227A7C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,18 +301,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				889FD3AA233E5FA800227A7C /* ViewController.swift in Sources */,
+				88B6066E23403BFD004E3851 /* ChatResponse.swift in Sources */,
 				88D4EEB4233FC86B0066DCF8 /* UIImage++.swift in Sources */,
 				88D4EEB0233FC0150066DCF8 /* ActionButtonsMessageCell.swift in Sources */,
 				889FD3A6233E5FA800227A7C /* AppDelegate.swift in Sources */,
 				88D4EEB2233FC6340066DCF8 /* CustomMessagesFlowLayout.swift in Sources */,
+				88B6066A23403B4F004E3851 /* Location.swift in Sources */,
 				889FD3BC233EAAD900227A7C /* SpeechView.swift in Sources */,
 				88D4EEB6233FCD2C0066DCF8 /* BasicAudioController.swift in Sources */,
 				889FD3BE233EB14A00227A7C /* ChatService.swift in Sources */,
 				88D4EEAA233F916A0066DCF8 /* Speaker.swift in Sources */,
+				88B6066623403B0B004E3851 /* Audio.swift in Sources */,
+				88B6066123403A83004E3851 /* Sender.swift in Sources */,
 				88D4EEAE233FBE7B0066DCF8 /* ActionButtonModel.swift in Sources */,
 				88D4EEAC233FB5330066DCF8 /* CalendarManager.swift in Sources */,
 				889FD3BA233E63E000227A7C /* ChatViewController.swift in Sources */,
+				88B6066323403ACD004E3851 /* Message.swift in Sources */,
+				88B6066C23403BA1004E3851 /* ChatMessage.swift in Sources */,
+				88B6066823403B25004E3851 /* Media.swift in Sources */,
 				88B6065823401E1D004E3851 /* PlaceInfoViewController.swift in Sources */,
 				88D4EEA8233F53AA0066DCF8 /* SpeechRecognizer.swift in Sources */,
 			);
@@ -259,14 +327,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		889FD3AB233E5FA800227A7C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				889FD3AC233E5FA800227A7C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		889FD3B0233E5FA900227A7C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
