@@ -68,16 +68,10 @@ final class ChatViewController: MessagesViewController {
             button.imageView?.contentMode = .scaleAspectFit
         }
 
-        let spaces = [UIView(), UIView()]
-        spaces.forEach {
-            $0.snp.makeConstraints { make in
-                make.width.equalTo(40)
-            }
-        }
-
-        let stackView = UIStackView(arrangedSubviews: [spaces[0]] + buttons + [spaces[1]])
+        let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.axis = .horizontal
         stackView.distribution = .equalCentering
+        stackView.alignment = .fill
         stackView.snp.makeConstraints { make in
             make.height.equalTo(38)
         }
@@ -95,15 +89,14 @@ final class ChatViewController: MessagesViewController {
         let builder = QRCodeReaderViewControllerBuilder {
             $0.reader = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
 
-            $0.showTorchButton        = false
+            $0.showTorchButton = false
             $0.showSwitchCameraButton = false
-            $0.showCancelButton       = false
-            $0.showOverlayView        = false
-            $0.rectOfInterest         = CGRect(x: 0.2, y: 0.25, width: 0.6, height: 0.5)
+            $0.showCancelButton = false
+            $0.showOverlayView = false
+            $0.rectOfInterest = CGRect(x: 0.2, y: 0.25, width: 0.6, height: 0.5)
         }
 
         let vc = QRCodeReaderViewController(builder: builder)
-
         return vc
     }()
 
