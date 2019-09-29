@@ -16,7 +16,7 @@ final class ActionButtonsMessageCell: UICollectionViewCell {
         guard case .custom(let model) = message.kind, let buttonsModels = model as? [ActionButtonModel] else { return }
 
         let buttons: [UIView] = buttonsModels.map { model in
-            let button = UIButton(type: .system)
+            let button = UIButton()
             button.setTitle(model.displayTitle, for: .normal)
             button.titleLabel?.textAlignment = .left
             button.snp.makeConstraints { make in

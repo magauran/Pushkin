@@ -53,6 +53,20 @@ struct Audio: AudioItem {
     }
 }
 
+struct Media: MediaItem {
+    let url: URL? = nil
+    let image: UIImage?
+    let placeholderImage: UIImage
+    let size: CGSize
+
+    init(url: URL) {
+        let data = (try? Data(contentsOf: url)) ?? Data()
+        self.image = UIImage(data: data)
+        self.placeholderImage = UIImage(named: "picture") ?? UIImage()
+        self.size = CGSize(width: 200, height: 200)
+    }
+}
+
 enum MessangerState {
     case menu
     case speech
@@ -225,7 +239,7 @@ final class ChatViewController: MessagesViewController {
             Message(sender: self.user, kind: .text("Привет")),
             Message(sender: self.bot, kind: .text("Как дела?")),
             Message(sender: self.user, kind: .text("Норм")),
-            Message(sender: self.bot, kind: .text("А у тебя?")),
+            Message(sender: self.bot, kind: .photo(Media(url: URL(string: "https://bmem.ru/wp-content/uploads/2019/04/proklyatyy-kot.jpg")!))),
             Message(sender: self.user, kind: .text("Тоже")),
             Message(sender: self.system, kind: .text("Ты где?")),
             Message(sender: self.bot, kind: .text("Санкт-Петербург, Исакиевская площадь, д. 1")),
@@ -601,8 +615,11 @@ extension ChatMessage {
                 return nil
             }
         case let imageMessage as ImageMessage:
-            assertionFailure()
-            return .text("")
+            if let url = URL(string: imageMessage.imageURL) {
+                return .photo(Media(url: url))
+            } else {
+                return nil
+            }
         default:
             assertionFailure()
             return .text("")
